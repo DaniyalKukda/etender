@@ -1,0 +1,24 @@
+.MuiPaper-root-10{
+    flex-direction: row !important;
+    justify-content: center;
+    
+}
+.MuiAppBar-colorPrimary-8{
+    color: black !important;
+    background-color: #fafafa !important;
+}
+.MuiToolbar-root-37{
+    width: 77%;
+}
+.MuiTypography-h6-58{
+    font-size : 2.2rem !important;
+    font-family: 'EB Garamond', serif !important;
+}
+.MuiButton-text-79 {
+    padding: 6px 12px !important;
+}
+.MuiButton-root-77{
+    font-family: 'Oswald', sans-serif !important;
+    font-size: 1rem !important;
+    letter-spacing: 1px;
+}
