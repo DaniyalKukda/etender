@@ -77,7 +77,7 @@ class Home extends Component {
                             <ListItem>
                                 <ListItemAvatar>
                                     <Avatar>
-                                    <i class="fas fa-search"></i>
+                                    <i class="fas fa-plus-circle"></i>
                                     </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText primary="Create" />
@@ -85,7 +85,7 @@ class Home extends Component {
                             <ListItem>
                                 <ListItemAvatar>
                                     <Avatar>
-                                    <i class="fas fa-assistive-listening-systems"></i>
+                                    <i class="fas fa-hand-pointer"></i>
                                     </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText primary="Select" />
@@ -93,7 +93,7 @@ class Home extends Component {
                             <ListItem>
                                 <ListItemAvatar>
                                     <Avatar>
-                                    <i class="fas fa-plus-circle"></i>
+                                    <i class="fas fa-award"></i>
                                     </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText primary="Award" />
