@@ -1,3 +1,6 @@
+*{
+    font-family: "Calibri" !important;
+}
 .footer{
     background-color: #303036;
     color: #d3d3d3;
@@ -6,14 +9,21 @@
     flex-direction: column;
     justify-content: space-between;
     margin-top: 100px;
+    align-items: center;
 }
-a{
+.links{
     color: #d3d3d3;
     padding: 0px 5px;
     text-decoration: none;
-    transition: all 2s;
+    transition: all 1s;
 }
-a:hover{
+.tplinks{
+    display: flex;
+    justify-content: space-between;
+    width: 12%;
+    height: 25px;
+}
+.links:hover{
     color: #303036;
     background-color: #d3d3d3;
     border-radius: 5px;
@@ -27,7 +37,8 @@ a:hover{
 }
 .footer .footer-content{
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
+    width: 82%;
 }
 .footer .footer-bottom{
     background-color: #343a40;
@@ -54,6 +65,14 @@ a:hover{
         flex-direction: column;
         height: 120px;
         text-align: center;
+    }
+    .tp{
+        width:100% ;
+        display:flex;
+        justify-content:center
+    }
+    .tplinks{
+        width: 34%;
     }
 }
 @media (max-width:526px){

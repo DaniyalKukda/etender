@@ -1,4 +1,7 @@
 
+*{
+    font-family: "Calibri" !important;
+}
 .MuiPaper-root{
     flex-direction: row !important;
     justify-content: center;
@@ -19,9 +22,13 @@
     padding: 6px 12px !important;
 }
 .MuiButton-root{
-    font-size: 1rem !important;
-    font-family: 'Oswald', sans-serif !important;
+    font-size: 1.1rem !important;
+    font-family: "Calibri" !important;
     letter-spacing: 1px;
+}
+.navlink{
+    text-decoration: none;
+    color: black;
 }
 @media (max-width:431px){
     .MuiTypography-h6{

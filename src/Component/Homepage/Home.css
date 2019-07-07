@@ -1,3 +1,6 @@
+*{
+  font-family: "Calibri" !important;
+}
 .hero-image {
     background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../../assets/Images/banner.jpg");
     height: 500px;
@@ -24,27 +27,30 @@
     margin-bottom: 0px;
     text-align: center;
     font-size: 2.82rem;
-    font-family: 'EB Garamond', serif;
+    font-family: "Calibri" !important;
+  }
+  .bidding{
+    margin-bottom: 25px;
   }
   .Ourstory-paragraph{
-    font-style: italic;
     text-align: center;
     font-size: 30px;
   }
   .btn-div{
     display: flex;
     justify-content: space-between;
-    width: 75%;
+    width: 38%;
   }
   .btn-bidnow-tender{
-    padding: 76px 55px !important;
+    padding: 25px !important;
     font-size: 20px !important;
     font-weight: 700 !important;
     cursor: pointer;
     background-color: white !important;
-    transition: all 2s;
-    font-family: 'Garamond', sans-serif !important;
+    transition: all 2s;    
+    font-family: "Calibri" !important;
     border-radius: 10px !important;
+    height: 80px;
   } 
   .btn-bidnow-tender:hover{
     background-color: rgb(205, 223, 255) !important;
@@ -52,20 +58,32 @@
   .line{
     margin: 82px;
     margin-bottom: 0px;
-    border: 1px solid #a5dda5;
+    border: 1px solid #a5997c;
+  }
+  .btndiv2{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  @media (max-width : 400px){
+    .btn-bidnow-tender{
+      font-size: 14px !important;
+    }
   }
   @media (max-width : 730px){
     .btn-div{
-      width: 90%;
+      width: 65%;
+    }
+  }
+  @media (max-width : 960px){
+    .btn-div{
+      width: 50%;
     }
   }
   @media (max-width : 730px){
     .btn-div{
       flex-direction: column;
-      height: 315px;
-    }
-    .btn-bidnow-tender{
-        padding: 50px 0px !important;
+      height: 200px;
     }
   }
 
