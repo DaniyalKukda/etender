@@ -20,6 +20,11 @@
     font-size: 20px;
     font-weight: 550;
 }
+.error{
+    margin: 0px;
+    color: red;
+    font-weight: 600;
+}
 .btn-login{
     background-color: #37B44E !important;
     color: #fff !important;

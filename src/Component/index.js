@@ -5,10 +5,12 @@ import Home from './Homepage/Home';
 import Login from "./Login/Login";
 import Signup from "./Signup/signup";
 
-class PostComponent extends Component {
+class Routes extends Component {
     render() {
+        //all routes created here
         return (
             <div>
+        
                 <Router history={history}>
                     <Route exact path="/" component={Home} />
                     <Route path="/home/login" component={Login} />
@@ -18,4 +20,4 @@ class PostComponent extends Component {
         )
     }
 }
-export default PostComponent
+export default Routes
