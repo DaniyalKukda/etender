@@ -3,42 +3,64 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { NavLink } from "react-router-dom";
 import LoginUser from "../../Auth/loginAuth";
+import { connect } from "react-redux";
+import { updateUser } from '../../store/action/action';
 import "./Login.css"
 
 class Login extends Component {
-    constructor(){
+    constructor() {
         super();
         this.state = {
-            email:"",
-            password:"",
-            error:""
+            email: "",
+            password: "",
+            error: "",
+            loading: false
         }
     }
     handleChange = (e) => {
         this.setState({
-            [e.target.name] : e.target.value,
-            error:""
+            [e.target.name]: e.target.value,
+            error: ""
         })
     }
     submit = () => {
-        let {email , password } = this.state;
-        if (email === "") {
-            this.setState({
-                error: "Please enter email address...."
+        let { email, password, loading } = this.state;
+        this.setState({
+            loading: true
+        })
+        try {
+
+            if (email === "") {
+                this.setState({
+                    error: "Please enter email address...."
+                })
+                return false
+            }
+            if (password === "") {
+                this.setState({
+                    error: "Please enter password...."
+                })
+                return false
+            }
+            let obj = {
+                email,
+                password
+            }
+            LoginUser(obj).then((data) => {
+                this.props.updateUser(data)
+                console.log(data)
+            }).catch((err)=>{
+                console.log(err.message)
             })
-            return false
+        }catch(err){
+            alert(err.message)
+        }finally{
+            setTimeout(()=>{
+                this.setState({
+                    loading:false
+                })
+            },5000)
         }
-        if (password === "") {
-            this.setState({
-                error: "Please enter password...."
-            })
-            return false
-        }
-        let obj ={
-            email,
-            password
-        }
-        LoginUser(obj)
     }
     render() {
         return (
@@ -50,7 +72,7 @@ class Login extends Component {
                     </div>
                     <form>
                         <TextField
-                        required
+                            required
                             id="outlined-email-input"
                             label="Email"
                             // className={classes.textField}
@@ -63,7 +85,7 @@ class Login extends Component {
                             variant="outlined"
                         />
                         <TextField
-                        required
+                            required
                             id="outlined-password-input"
                             label="Password"
                             // className={classes.textField}
@@ -84,10 +106,19 @@ class Login extends Component {
                     <div className="dha-div">
                         <p>Dont't have an account? <NavLink className="navlink" to="/home/signup"><span style={{ fontWeight: 550, fontSize: 17, cursor: "pointer" }}>Signup</span></NavLink></p>
                         <p className="fg-password">forgot password ?</p>
+                        {this.state.loading && <img src={require("../../assets/Images/loading.gif")} height="70px" width="70px" />}
                     </div>
                 </div>
             </div>
         )
     }
 }
-export default Login
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        updateUser : (user) => dispatch(updateUser(user))
+    }
+
+}
+
+export default connect(null,mapDispatchToProps)(Login)

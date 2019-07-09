@@ -1,12 +1,18 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import Component from './Component/'
+import Component from './Component/';
+import { store, persistor } from './store/index'
+import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react'
+
 function App() {
   return (
-    <div className="App">
-     <Component />
-    </div>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor} >
+        <Component />
+      </PersistGate>
+    </Provider>
+
   );
 }
 

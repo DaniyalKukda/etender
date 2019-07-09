@@ -13,7 +13,8 @@
     "react-scripts": "3.0.1",
     "redux": "^4.0.1",
     "redux-persist": "^5.10.0",
-    "sweet-alert": "^2.0.5"
+    "redux-thunk": "^2.3.0",
+    "sweetalert2": "^8.13.3"
   },
   "scripts": {
     "start": "react-scripts start",

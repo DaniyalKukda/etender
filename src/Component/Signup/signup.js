@@ -28,13 +28,14 @@ class Signup extends Component {
             country: "",
             state: "",
             expertise: "",
-            error: ""
+            error: "",
+            loading: false
         }
         this.handleChange = this.handleChange.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
     }
     //this method is used to set form data in state
-    handleChange(e) {
+    handleChange = (e) => {
         e.preventDefault()
         this.setState({
             error: "",
@@ -42,7 +43,7 @@ class Signup extends Component {
         })
     }
     //this method in used to create a user and validate feilds
-    onSubmit() {
+    onSubmit = () => {
         let { fullName, email, companyName, mobileNumber, trnNo, file, tradeLN, password, confirmPassword, country, state, expertise } = this.state;
         let obj = {
             fullName,
@@ -58,112 +59,121 @@ class Signup extends Component {
             state,
             expertise
         }
-        if (fullName === "") {
-            this.setState({
-                error: "Please enter your Full Name...."
-            })
-            return false
-        }
-        if (fullName.length <= 2 || fullName.length > 20) {
-            this.setState({
-                error: "Enter valid name...."
-            })
-            return false
-        }
-        if (!isNaN(fullName)) {
-            this.setState({
-                error: "Name containe only Alphabets...."
-            })
-            return false
-        }
-        if (email === "") {
-            this.setState({
-                error: "Please enter email address...."
-            })
-            return false
-        }
-        var reg = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-        if (reg.test(email) === false) {
-            this.setState({
-                error: "Please enter your valid email...."
-            })
-            return false
-        }
-        if (companyName === "") {
-            this.setState({
-                error: "Please enter your Company Name...."
-            })
-            return false
-        }
+        this.setState({ loading: true })
+        try {
+            if (fullName === "") {
+                this.setState({
+                    error: "Please enter your Full Name...."
+                })
+                return false
+            }
+            if (fullName.length <= 2 || fullName.length > 20) {
+                this.setState({
+                    error: "Enter valid name...."
+                })
+                return false
+            }
+            if (!isNaN(fullName)) {
+                this.setState({
+                    error: "Name containe only Alphabets...."
+                })
+                return false
+            }
+            if (email === "") {
+                this.setState({
+                    error: "Please enter email address...."
+                })
+                return false
+            }
+            var reg = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+            if (reg.test(email) === false) {
+                this.setState({
+                    error: "Please enter your valid email...."
+                })
+                return false
+            }
+            if (companyName === "") {
+                this.setState({
+                    error: "Please enter your Company Name...."
+                })
+                return false
+            }
 
-        if (mobileNumber === "") {
-            this.setState({
-                error: "Enter your Mobile Number"
-            })
-            return false
-        }
-        if (mobileNumber.length !== 11) {
-            this.setState({
-                error: "Enter Valid Mobile Number"
-            })
-            return false
-        }
-        if (file === "") {
-            this.setState({
-                error: "select trade licence copy"
-            })
-            return false
-        }
-        if (tradeLN === "") {
-            this.setState({
-                error:"Please enter your Trade licence number...."
-            })
-            return false
-        }
-        if (trnNo === "") {
-            this.setState({
-                error:"Please enter your TRN Number...."
-            })
-            return false
-        }
-        if (password === "") {
-            this.setState({
-                error: "Please enter your password...."
-            })
-            return false
-        }
-        if (password.length <= 5 || password.length > 11) {
-            this.setState({
-                error: "Enter Password atleast 6 to 12 Characters or digits"
-            })
-            return false
-        }
-        if (password !== confirmPassword) {
-            this.setState({
-                error: "Password are not matched"
-            })
-            return false
-        }
+            if (mobileNumber === "") {
+                this.setState({
+                    error: "Enter your Mobile Number"
+                })
+                return false
+            }
+            if (mobileNumber.length !== 11) {
+                this.setState({
+                    error: "Enter Valid Mobile Number"
+                })
+                return false
+            }
+            if (file === "") {
+                this.setState({
+                    error: "select trade licence copy"
+                })
+                return false
+            }
+            if (tradeLN === "") {
+                this.setState({
+                    error: "Please enter your Trade licence number...."
+                })
+                return false
+            }
+            if (trnNo === "") {
+                this.setState({
+                    error: "Please enter your TRN Number...."
+                })
+                return false
+            }
+            if (password === "") {
+                this.setState({
+                    error: "Please enter your password...."
+                })
+                return false
+            }
+            if (password.length <= 5 || password.length > 11) {
+                this.setState({
+                    error: "Enter Password atleast 6 to 12 Characters or digits"
+                })
+                return false
+            }
+            if (password !== confirmPassword) {
+                this.setState({
+                    error: "Password are not matched"
+                })
+                return false
+            }
 
-        if (country === "") {
-            this.setState({
-                error:"Please Select your Country Name...."
-            })
-            return false
+            if (country === "") {
+                this.setState({
+                    error: "Please Select your Country Name...."
+                })
+                return false
+            }
+            if (state === "") {
+                this.setState({
+                    error: "Please enter your state...."
+                })
+                return false
+            }
+            if (expertise === "") {
+                this.setState({
+                    error: "Please Select your Expertise...."
+                })
+                return false
+            }
+            CreateUser(obj ,this.props)
+        } catch (err) {
+            console.log(err.message)
+        } finally {
+            setTimeout(() => {
+                this.setState({ loading: false })
+            }, 5000)
         }
-        if (state === "") {
-            this.setState({
-                error:"Please enter your state...."
-            })
-            return false
-        }
-        if (expertise === "") {
-            this.setState({
-                error:"Please Select your Expertise...."
-            })
-            return false
-        }
-        CreateUser(obj)
     }
     render() {
         return (
@@ -348,6 +358,7 @@ class Signup extends Component {
                     </form>
                     <div className="dha-div">
                         <p>Already Have an Account ?<NavLink className="navlink" to="/home/login"><span style={{ fontWeight: 550, fontSize: 17, cursor: "pointer" }}>Login</span></NavLink></p>
+                        {this.state.loading && <img src={require("../../assets/Images/loading.gif")} height="70px" width="70px" />}
                     </div>
                 </div>
             </div>
