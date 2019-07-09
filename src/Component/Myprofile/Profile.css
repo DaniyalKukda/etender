@@ -1,0 +1,51 @@
+.SignupContainer{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.MyprofileForm{
+    height: auto !important;
+    width: 500px;
+    background-color: #fff;
+    padding: 30px 50px 50px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 4px;
+    margin: 80px 0px;
+}
+.headingSignIn{
+    font-size: 20px;
+    font-weight: 550;
+}
+.error{
+    margin: 0px;
+    color: red;
+    font-weight: 600;
+}
+.btn-login{
+    background-color: #37B44E !important;
+    color: #fff !important;
+    font-family: "Calibri"
+}
+
+.btn-login:hover{
+    background-color: #1F9947 !important;
+}
+.Header-div{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    /* flex-direction: column; */
+    /* align-items: center; */
+}
+.fg-password{
+    color: #8899A6;
+    cursor: pointer;
+    font-size: 18px;
+}
+.fg-password:hover{
+    color: #1F9947;
+}

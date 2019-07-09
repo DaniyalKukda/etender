@@ -5,58 +5,77 @@ import FilledInput from '@material-ui/core/FilledInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import { NavLink } from "react-router-dom";
-import { CreateUser } from "../../Auth/signupAuth"
-import "./signup.css"
+import { updateUserData } from "../../Auth/signupAuth";
+import { connect } from "react-redux"
+import "./Profile.css"
 
-class Signup extends Component {
-    constructor() {
-        super();
+
+class Profile extends Component {
+    constructor(props) {
+        super(props);
+        let { user } = this.props
         this.state = {
             allcountryArray: ["Afghanistan", "Albania", "Algeria", "American Samoa", "Andorra", "Angola", "Anguilla", "Antarctica", "Antigua and Barbuda", "Argentina", "Armenia", "Aruba", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bermuda", "Bhutan", "Bolivia", "Bosnia and Herzegowina", "Botswana", "Bouvet Island", "Brazil", "British Indian Ocean Territory", "Brunei Darussalam", "Bulgaria", "Burkina Faso", "Burundi", "Cambodia", "Cameroon", "Canada", "Cape Verde", "Cayman Islands", "Central African Republic", "Chad", "Chile", "China", "Christmas Island", "Cocos (Keeling) Islands", "Colombia", "Comoros", "Congo", "Congo, the Democratic Republic of the", "Cook Islands", "Costa Rica", "Cote d'Ivoire", "Croatia (Hrvatska)", "Cuba", "Cyprus", "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "East Timor", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Ethiopia", "Falkland Islands (Malvinas)", "Faroe Islands", "Fiji", "Finland", "France", "France Metropolitan", "French Guiana", "French Polynesia", "French Southern Territories", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Gibraltar", "Greece", "Greenland", "Grenada", "Guadeloupe", "Guam", "Guatemala", "Guinea", "Guinea-Bissau", "Guyana", "Haiti", "Heard and Mc Donald Islands", "Holy See (Vatican City State)", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia", "Iran (Islamic Republic of)", "Iraq", "Ireland", "Israel", "Italy", "Jamaica", "Japan", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Korea, Democratic People's Republic of", "Korea, Republic of", "Kuwait", "Kyrgyzstan", "Lao, People's Democratic Republic", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libyan Arab Jamahiriya", "Liechtenstein", "Lithuania", "Luxembourg", "Macau", "Macedonia, The Former Yugoslav Republic of", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Martinique", "Mauritania", "Mauritius", "Mayotte", "Mexico", "Micronesia, Federated States of", "Moldova, Republic of", "Monaco", "Mongolia", "Montserrat", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nauru", "Nepal", "Netherlands", "Netherlands Antilles", "New Caledonia", "New Zealand", "Nicaragua", "Niger", "Nigeria", "Niue", "Norfolk Island", "Northern Mariana Islands", "Norway", "Oman", "Pakistan", "Palau", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Pitcairn", "Poland", "Portugal", "Puerto Rico", "Qatar", "Reunion", "Romania", "Russian Federation", "Rwanda", "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Seychelles", "Sierra Leone", "Singapore", "Slovakia (Slovak Republic)", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Georgia and the South Sandwich Islands", "Spain", "Sri Lanka", "St. Helena", "St. Pierre and Miquelon", "Sudan", "Suriname", "Svalbard and Jan Mayen Islands", "Swaziland", "Sweden", "Switzerland", "Syrian Arab Republic", "Taiwan, Province of China", "Tajikistan", "Tanzania, United Republic of", "Thailand", "Togo", "Tokelau", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Turks and Caicos Islands", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "United States Minor Outlying Islands", "Uruguay", "Uzbekistan", "Vanuatu", "Venezuela", "Vietnam", "Virgin Islands (British)", "Virgin Islands (U.S.)", "Wallis and Futuna Islands", "Western Sahara", "Yemen", "Yugoslavia", "Zambia", "Zimbabwe"],
             expertizeArray: ["Direct Owner", "Developer", "Real State", "Consultant", "Building Contractor", "Electrical Contractor", "MEP Contractor", "Low Voltage (ELV) Contractor", "Fire Fighting Contractor", "HVAC Contractor", "Plumbing Contractor", "Elevators Contractor", "Tiles & Interlock Contractor", "Plaster & Paint Contractor", "Steel Contractor", "Concret & Blocks Contractor", "Gypsum & Decor Contractor", "Furniture", "Fire Rated Doors", "Wooden Doors", "Almunium & glass work", "Central Gas System", "IT", "Automation"],
-            fullName: "",
-            email: "",
-            companyName: "",
-            mobileNumber: "",
-            trnNo: "",
-            password: "",
-            confirmPassword: "",
-            file: "",
-            tradeLN: "",
-            country: "",
-            state: "",
-            expertise: "",
+            fullName: user.fullName,
+            email: user.email,
+            companyName: user.companyName,
+            mobileNumber: user.mobileNumber,
+            trnNo: user.trnNo,
+            file:"",
+            tradeLN: user.tradeLN,
+            country: user.country,
+            state: user.state,
+            expertise: user.expertise,
             error: "",
-            loading: false
+            Bankerror: "",
+            bankName: "",
+            bankBranch: "",
+            accountName: "",
+            accountNumber: "",
+            bankLetter: "",
+            toggle: true,
+            loading: false,
+
         }
         this.handleChange = this.handleChange.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
     }
+
     //this method is used to set form data in state
     handleChange = (e) => {
         e.preventDefault()
         this.setState({
             error: "",
+            Bankerror: "",
             [e.target.name]: e.target.value
+        })
+    }
+    //this method is used to disable and un disable input feilds
+    onToggle = () => {
+        this.setState({
+            toggle: !this.state.toggle
         })
     }
     //this method in used to create a user and validate feilds
     onSubmit = () => {
-        let { fullName, email, companyName, mobileNumber, trnNo, file, tradeLN, password, confirmPassword, country, state, expertise } = this.state;
+        let { fullName, email, companyName, mobileNumber, trnNo, file, tradeLN, country, state, expertise, bankBranch, bankLetter, bankName, accountName, accountNumber } = this.state;
         let obj = {
             fullName,
             email,
             companyName,
             mobileNumber,
             trnNo,
-            password,
-            confirmPassword,
             file,
             tradeLN,
             country,
             state,
-            expertise
+            expertise,
+            bankName,
+            bankBranch,
+            bankLetter,
+            accountName,
+            accountNumber
         }
         this.setState({ loading: true })
         try {
@@ -110,12 +129,6 @@ class Signup extends Component {
                 })
                 return false
             }
-            if (file === "") {
-                this.setState({
-                    error: "select trade licence copy"
-                })
-                return false
-            }
             if (tradeLN === "") {
                 this.setState({
                     error: "Please enter your Trade licence number...."
@@ -128,25 +141,6 @@ class Signup extends Component {
                 })
                 return false
             }
-            if (password === "") {
-                this.setState({
-                    error: "Please enter your password...."
-                })
-                return false
-            }
-            if (password.length <= 5 || password.length > 11) {
-                this.setState({
-                    error: "Enter Password atleast 6 to 12 Characters or digits"
-                })
-                return false
-            }
-            if (password !== confirmPassword) {
-                this.setState({
-                    error: "Password are not matched"
-                })
-                return false
-            }
-
             if (country === "") {
                 this.setState({
                     error: "Please Select your Country Name...."
@@ -165,7 +159,37 @@ class Signup extends Component {
                 })
                 return false
             }
-            CreateUser(obj, this.props)
+            if (bankName === "") {
+                this.setState({
+                    Bankerror: "Enter your bank name...."
+                })
+                return false
+            }
+            if (bankBranch === "") {
+                this.setState({
+                    Bankerror: "Enter your bank branch name...."
+                })
+                return false
+            }
+            if (accountName === "") {
+                this.setState({
+                    Bankerror: "Enter your bank account name...."
+                })
+                return false
+            }
+            if (accountNumber === "") {
+                this.setState({
+                    Bankerror: "Enter your bank account number...."
+                })
+                return false
+            }
+            if (bankLetter === "") {
+                this.setState({
+                    Bankerror: "Upload your bank Letter...."
+                })
+                return false
+            }
+            updateUserData(obj, this.props)
         } catch (err) {
             console.log(err.message)
         } finally {
@@ -175,13 +199,17 @@ class Signup extends Component {
         }
     }
     render() {
+        let { fullName, file, email, companyName, mobileNumber, trnNo, tradeLN, country, state, expertise, toggle } = this.state;
         return (
             <div className="SignupContainer">
-                <div className="SignupForm">
-                    <div className="dha-div">
-                        <p className="headingSignIn">Create Account!</p>
-                        <p className="error">{this.state.error}</p>
+                <div className="MyprofileForm">
+                    <div className="Header-div">
+                        <p className="headingSignIn">My Profile</p>
+                        <Button variant="contained" onClick={this.onToggle} className="btn-login">
+                            Update Profile
+                    </Button>
                     </div>
+                    <p className="error">{this.state.error}</p>
                     <form>
                         <TextField
                             required
@@ -194,6 +222,8 @@ class Signup extends Component {
                             margin="normal"
                             variant="outlined"
                             // error={true}
+                            value={fullName}
+                            disabled={toggle}
                             onChange={this.handleChange}
                         />
                         <TextField
@@ -207,6 +237,8 @@ class Signup extends Component {
                             autoComplete="email"
                             margin="normal"
                             variant="outlined"
+                            disabled={toggle}
+                            value={email}
                             onChange={this.handleChange}
                         />
                         <TextField
@@ -214,16 +246,19 @@ class Signup extends Component {
                             id="outlined-name-input"
                             label="Company Name"
                             // className={classes.textField}
+                            value={companyName}
                             fullWidth={true}
                             type="text"
                             name="companyName"
                             margin="normal"
                             variant="outlined"
+                            disabled={toggle}
                             onChange={this.handleChange}
                         />
                         <TextField
                             required
                             id="outlined-number"
+                            value={mobileNumber}
                             label="Mobile Phone"
                             type="number"
                             InputLabelProps={{
@@ -232,6 +267,7 @@ class Signup extends Component {
                             margin="normal"
                             variant="outlined"
                             fullWidth={true}
+                            disabled={toggle}
                             onChange={this.handleChange}
                             name="mobileNumber"
                         />
@@ -246,6 +282,7 @@ class Signup extends Component {
                             margin="normal"
                             variant="outlined"
                             fullWidth={true}
+                            disabled={toggle}
                             multiple
                             onChange={() => {
                                 var img = document.getElementById("outlined-file").files[0]
@@ -258,12 +295,14 @@ class Signup extends Component {
                         />
                         <TextField
                             required
+                            value={tradeLN}
                             id="outlined-number"
                             label="Trade Licence Number"
                             type="number"
                             InputLabelProps={{
                                 shrink: true,
                             }}
+                            disabled={toggle}
                             margin="normal"
                             variant="outlined"
                             fullWidth={true}
@@ -272,6 +311,7 @@ class Signup extends Component {
                         />
                         <TextField
                             required
+                            value={trnNo}
                             id="outlined-number"
                             label="TRN No"
                             type="number"
@@ -280,33 +320,9 @@ class Signup extends Component {
                             }}
                             margin="normal"
                             variant="outlined"
+                            disabled={toggle}
                             fullWidth={true}
                             name="trnNo"
-                            onChange={this.handleChange}
-                        />
-
-                        <TextField
-                            required
-                            id="outlined-password-input"
-                            label="Password"
-                            // className={classes.textField}
-                            fullWidth={true}
-                            type="password"
-                            margin="normal"
-                            name="password"
-                            variant="outlined"
-                            onChange={this.handleChange}
-                        />
-                        <TextField
-                            required
-                            id="outlined-password-input"
-                            label="Confirm Password"
-                            // className={classes.textField}
-                            fullWidth={true}
-                            name="confirmPassword"
-                            type="password"
-                            margin="normal"
-                            variant="outlined"
                             onChange={this.handleChange}
                         />
                         <br />
@@ -314,8 +330,10 @@ class Signup extends Component {
                         <FormControl variant="filled" fullWidth={true}>
                             <InputLabel htmlFor="filled-age-native-simple">Country</InputLabel>
                             <Select
+                                value={country}
                                 native
                                 name="country"
+                                disabled={toggle}
                                 onChange={this.handleChange}
                                 input={<FilledInput name="country" id="filled-age-native-simple" />}
                             >
@@ -326,12 +344,14 @@ class Signup extends Component {
                         <TextField
                             required
                             id="outlined-state-input"
+                            value={state}
                             label="State"
                             // className={classes.textField}
                             fullWidth={true}
                             type="text"
                             name="state"
                             margin="normal"
+                            disabled={toggle}
                             name="state"
                             variant="outlined"
                             onChange={this.handleChange}
@@ -342,26 +362,102 @@ class Signup extends Component {
                                 native
                                 name="expertise"
                                 onChange={this.handleChange}
+                                disabled={toggle}
+                                value={expertise}
                                 input={<FilledInput name="Expertise" id="filled-age-native-simple" />}
                             >
                                 <option value="" />
                                 {this.state.expertizeArray.map((e) => <option value={e}>{e}</option>)}
                             </Select>
                         </FormControl>
-                        <br />
-                        <br />
+                        <p className="headingSignIn">Bank Details</p>
+                        <p className="error">{this.state.Bankerror}</p>
+                        <TextField
+                            required
+                            id="outlined-bank-name-input"
+                            label="Name of the Bank"
+                            fullWidth={true}
+                            type="text"
+                            name="bankName"
+                            margin="normal"
+                            variant="outlined"
+                            onChange={this.handleChange}
+                        />
+                        <TextField
+                            required
+                            id="outlined-bank-name-input"
+                            label="Branch"
+                            fullWidth={true}
+                            type="text"
+                            name="bankBranch"
+                            margin="normal"
+                            variant="outlined"
+                            onChange={this.handleChange}
+                        />
 
+                        <TextField
+                            required
+                            id="outlined-bank-name-input"
+                            label="Account Name"
+                            fullWidth={true}
+                            type="text"
+                            name="accountName"
+                            margin="normal"
+                            variant="outlined"
+                            onChange={this.handleChange}
+                        />
+                        <TextField
+                            required
+                            id="outlined-number"
+                            label="Account Number"
+                            type="number"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            margin="normal"
+                            variant="outlined"
+                            fullWidth={true}
+                            name="accountNumber"
+                            onChange={this.handleChange}
+                        />
+                        <TextField
+                            required
+                            id="outlined-file-letter"
+                            label="Bank Letter"
+                            type="file"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            margin="normal"
+                            variant="outlined"
+                            fullWidth={true}
+                            multiple
+                            onChange={() => {
+                                var img2 = document.getElementById("outlined-file-letter").files[0]
+                                this.setState({
+                                    bankLetter: img2
+                                })
+                                // console.log(img)
+                            }}
+                            name="bankLetter"
+                        />
+                        <br />
+                        <br />
                         <Button variant="contained" onClick={this.onSubmit} className="btn-login" fullWidth={true}>
-                            Create Account
+                            Send For Approval
                         </Button>
                     </form>
-                    <div className="dha-div">
-                        <p>Already Have an Account ?<NavLink className="navlink" to="/home/login"><span style={{ fontWeight: 550, fontSize: 17, cursor: "pointer" }}>Login</span></NavLink></p>
-                        {this.state.loading && <img src={require("../../assets/Images/loading.gif")} height="70px" width="70px" />}
+                    <div style={{ display: "flex", justifyContent: "center" }}>
+                        {this.state.loading && <img style={{ textAlign: "center" }} src={require("../../assets/Images/loading.gif")} height="70px" width="70px" />}
                     </div>
                 </div>
             </div>
         )
     }
 }
-export default Signup
+const mapStateToProps = (state) => {
+    return ({
+        user: state.authReducers.user
+    })
+}
+export default connect(mapStateToProps, null)(Profile)
