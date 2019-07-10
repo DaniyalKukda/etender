@@ -5,6 +5,7 @@ import Inicon  from 'react-icons/lib/fa/instagram';
 import Linicon  from 'react-icons/lib/fa/linkedin';
 
 import "./Footer.css"
+import color from '@material-ui/core/colors/deepOrange';
 
 class Footer extends Component {
     render() {
@@ -14,7 +15,7 @@ class Footer extends Component {
                     <div className="contact-form">
                         <h4>Contact</h4>
                         <p style={{ margin: "0px" }}>+971 50 35 986 37</p>
-                        <a style={{ padding: "0px", textDecoration: "underline" }} href="#">admin@yousufgroup.com</a>
+                        <a style={{ padding: "0px", textDecoration: "underline", color:"#d3d3d3" }} href="#">admin@yousufgroup.com</a>
                         <p style={{ margin: "0px" }}>U.A.E.</p>
                     </div>
                     <div className="footer-section">

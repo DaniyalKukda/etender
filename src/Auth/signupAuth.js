@@ -65,11 +65,11 @@ const CreateUser = (data, props) => {
 }
 
 const updateUserData = (data, props) => {
-    let storageRef1 = firebase.storage().ref().child(`licence/${data.file.name}`)
-    storageRef1.put(data.file).then((url1) => {
+    // let storageRef1 = firebase.storage().ref().child(`licence/${data.file.name}`)
+    // storageRef1.put(data.file).then((url1) => {
 
-        url1.ref.getDownloadURL().then((urlref1) => {
-            data.file = urlref1
+    //     url1.ref.getDownloadURL().then((urlref1) => {
+    //         data.file = urlref1
             let storageRef = firebase.storage().ref().child(`BankLetter/${data.bankLetter.name}`)
             storageRef.put(data.bankLetter).then((url) => {
                 url.ref.getDownloadURL().then((urlref) => {
@@ -83,6 +83,7 @@ const updateUserData = (data, props) => {
                             title: 'Updated',
                             text: 'Account is Successfully Updated...',
                         })
+                        props.history.push("/")
                         setTimeout(() => {
                             props.history.push("/")
                         }, 2000);
@@ -115,15 +116,15 @@ const updateUserData = (data, props) => {
                     text: err.message,
                 })
             })
-        }).catch((err) => {
-            console.error(err.message);
-            console.log(err);
-            Swal.fire({
-                type: 'error',
-                title: 'Oops...',
-                text: err.message,
-            })
-        })
-    })
+        // }).catch((err) => {
+        //     console.error(err.message);
+        //     console.log(err);
+        //     Swal.fire({
+        //         type: 'error',
+        //         title: 'Oops...',
+        //         text: err.message,
+        //     })
+        // })
+    // })
 }
 export { CreateUser, updateUserData }

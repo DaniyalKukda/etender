@@ -209,6 +209,7 @@ class Profile extends Component {
                             Update Profile
                     </Button>
                     </div>
+                    <p style={{fontFamily:"calibri" , fontWeight:"500" , margin:"0px"}}>update profile to continue....</p>
                     <p className="error">{this.state.error}</p>
                     <form>
                         <TextField
@@ -271,7 +272,7 @@ class Profile extends Component {
                             onChange={this.handleChange}
                             name="mobileNumber"
                         />
-                        <TextField
+                        {/* <TextField
                             required
                             id="outlined-file"
                             label="Trade Licence Copy"
@@ -292,7 +293,7 @@ class Profile extends Component {
                                 // console.log(img)
                             }}
                             name="file"
-                        />
+                        /> */}
                         <TextField
                             required
                             value={tradeLN}

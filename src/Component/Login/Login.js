@@ -48,7 +48,7 @@ class Login extends Component {
             }
             LoginUser(obj).then((data) => {
                 this.props.updateUser(data)
-                console.log(data)
+                data.userFlag ? this.props.history.push("/") : this.props.history.push("/home/my_profile") 
             }).catch((err)=>{
                 console.log(err.message)
             })
@@ -120,5 +120,6 @@ const mapDispatchToProps = (dispatch) => {
     }
 
 }
+
 
 export default connect(null,mapDispatchToProps)(Login)

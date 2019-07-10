@@ -12,12 +12,13 @@ import Searchicon from 'react-icons/lib/fa/search';
 import Assesicon from 'react-icons/lib/fa/assistive-listening-systems';
 import Handicon from 'react-icons/lib/fa/hand-pointer-o';
 import Awardicon from 'react-icons/lib/fa/yelp';
+import { NavLink } from "react-router-dom";
 import "./Home.css"
 import { Button } from '@material-ui/core';
 class Home extends Component {
     renderButton(textbtn, icon) {
         return (
-            <Button className="btn-bidnow-tender">{textbtn} &nbsp; {icon}</Button>
+            <NavLink className="navlink" to={textbtn === "Open Tender" && "/home/open_tender"}><Button className="btn-bidnow-tender">{textbtn} &nbsp; {icon}</Button></NavLink>
         )
     }
     render() {

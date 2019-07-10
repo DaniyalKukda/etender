@@ -1,0 +1,26 @@
+.openTenderContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.opentenderheading{
+    display: flex;
+    justify-content: center;
+    font-family: "calibri";
+}
+.openTenderFeilds{
+    width: 90%;
+    height: 475px;
+    border: 2px solid black;
+}
+.PrivateNotchedOutline-root-147 {
+    width: 240px
+}
+.MuiInputBase-root{
+    width: 250px;
+}
+.formDiv{
+    display: flex;
+    justify-content: space-around;
+}

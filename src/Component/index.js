@@ -5,6 +5,7 @@ import Home from './Homepage/Home';
 import Login from "./Login/Login";
 import Signup from "./Signup/signup";
 import Profile from "./Myprofile/Profile";
+import Opentender from "./Opentender/opentender";
 
 class Routes extends Component {
     render() {
@@ -17,6 +18,7 @@ class Routes extends Component {
                     <Route path="/home/login" component={Login} />
                     <Route path="/home/signup" component={Signup} />
                     <Route path="/home/my_profile" component={Profile} />
+                    <Route path="/home/open_tender" component={Opentender} />
                 </Router>
             </div>
         )
