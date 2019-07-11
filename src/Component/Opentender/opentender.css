@@ -3,6 +3,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    /* background-color: white; */
 }
 .opentenderheading{
     display: flex;
@@ -11,16 +12,24 @@
 }
 .openTenderFeilds{
     width: 90%;
-    height: 475px;
-    border: 2px solid black;
+    height: 700px;
 }
-.PrivateNotchedOutline-root-147 {
+/* .PrivateNotchedOutline-root-147 {
     width: 240px
-}
+} */
 .MuiInputBase-root{
     width: 250px;
 }
 .formDiv{
     display: flex;
     justify-content: space-around;
+}
+.attach{
+    display: flex;
+    flex-direction: column;
+}
+.labelfile{
+    font-family: "calibri";
+    font-weight: 600;
+    font-size: 15px;
 }

@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import Appbar from "../AppBar/Appbar";
+import Footer from "../Footer/Footer";
 import { connect } from "react-redux"
+import Swal from "sweetalert2";
+import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import FilledInput from '@material-ui/core/FilledInput';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -102,8 +105,6 @@ class Opentender extends Component {
                                     placeholder="Enter Tender Description"
                                 // onChange={this.handleChange}
                                 />
-                            </div>
-                            <div style={{marginTop:"50px"}}>
                                 <FormControl variant="filled">
                                     <InputLabel htmlFor="filled-age-native-simple">Building Type</InputLabel>
                                     <Select
@@ -118,10 +119,148 @@ class Opentender extends Component {
                                         {this.state.buildingType.map((e) => <option value={e}>{e}</option>)}
                                     </Select>
                                 </FormControl>
-
+                                <TextField
+                                    required
+                                    style={{ display: "block" }}
+                                    id="outlined-name-input"
+                                    label="State"
+                                    // className={classes.textField}
+                                    type="text"
+                                    name="state"
+                                    margin="normal"
+                                    variant="outlined"
+                                // onChange={this.handleChange}
+                                />
+                                <TextField
+                                    required
+                                    style={{ display: "block" }}
+                                    id="outlined-name-input"
+                                    label="Plot No"
+                                    // className={classes.textField}
+                                    type="text"
+                                    name="plotno"
+                                    margin="normal"
+                                    variant="outlined"
+                                // onChange={this.handleChange}
+                                />
+                                <TextField
+                                    required
+                                    style={{ display: "block" }}
+                                    id="outlined-name-input"
+                                    label="Location"
+                                    // className={classes.textField}
+                                    type="text"
+                                    name="location"
+                                    margin="normal"
+                                    variant="outlined"
+                                // onChange={this.handleChange}
+                                />
+                            </div>
+                            <div>
+                                <TextField
+                                    id="date"
+                                    label="Closing Date"
+                                    type="date"
+                                    // defaultValue="2017-05-24"
+                                    // className={classes.textField}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    style={{ marginTop: "39px" }}
+                                />
+                                <p className="headingSignIn" style={{ fontSize: "18px", marginTop: "8px" }}>Attachments</p>
+                                <div className="attach">
+                                    <label className="labelfile">Engineering Drawings in PDF</label><br />
+                                    <input
+                                        required
+                                        id="outlined-file"
+                                        type="file"
+                                        accept="application/pdf"
+                                        onChange={() => {
+                                            var img = document.getElementById("outlined-file").files[0]
+                                            this.setState({
+                                                file: img
+                                            })
+                                        }}
+                                        name="engineeringdrawings"
+                                    />
+                                    <br />
+                                    <label className="labelfile">Site Plan in PDF</label><br />
+                                    <input
+                                        required
+                                        id="outlined-file"
+                                        type="file"
+                                        accept="application/pdf"
+                                        onChange={() => {
+                                            var img = document.getElementById("outlined-file").files[0]
+                                            this.setState({
+                                                file: img
+                                            })
+                                        }}
+                                        name="siteplan"
+                                    />
+                                    <br />
+                                    <label className="labelfile">Building Permit in PDF</label><br />
+                                    <input
+                                        required
+                                        id="outlined-file"
+                                        type="file"
+                                        accept="application/pdf"
+                                        onChange={() => {
+                                            var img = document.getElementById("outlined-file").files[0]
+                                            this.setState({
+                                                file: img
+                                            })
+                                        }}
+                                        name="buildingpermit"
+                                    />
+                                    <br />
+                                    <label className="labelfile">Material and Specification in PDF</label><br />
+                                    <input
+                                        required
+                                        id="outlined-file"
+                                        type="file"
+                                        accept="application/pdf"
+                                        onChange={() => {
+                                            var img = document.getElementById("outlined-file").files[0]
+                                            this.setState({
+                                                file: img
+                                            })
+                                        }}
+                                        name="materialandspecification"
+                                    />
+                                    <br />
+                                    <label className="labelfile">Other <span>(Optional)</span></label><br />
+                                    <input
+                                        required
+                                        id="outlined-file"
+                                        type="file"
+                                        accept="application/pdf"
+                                        onChange={() => {
+                                            var img = document.getElementById("outlined-file").files[0]
+                                            this.setState({
+                                                file: img
+                                            })
+                                        }}
+                                        name="other"
+                                    />
+                                    <br />
+                                    <br />
+                                    <Button variant="contained" onClick={() => Swal.fire({
+                                        type: 'success',
+                                        title: 'Open Tender',
+                                        text: 'Tender Posted Successfully',
+                                    })}
+                                     className="btn-login" fullWidth={true}>
+                                        Open Tender
+                                    </Button>
+                                </div>
                             </div>
                         </div>
                     </div>
+                </div>
+                <div>
+                    <Footer />
                 </div>
             </div>
         )
