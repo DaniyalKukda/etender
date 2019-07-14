@@ -13,13 +13,14 @@ import Assesicon from 'react-icons/lib/fa/assistive-listening-systems';
 import Handicon from 'react-icons/lib/fa/hand-pointer-o';
 import Awardicon from 'react-icons/lib/fa/yelp';
 import { NavLink } from "react-router-dom";
+import {connect} from "react-redux";
 import "./Home.css"
 import { Button } from '@material-ui/core';
 class Home extends Component {
     renderButton(textbtn, icon) {
         return (
-            <NavLink className="navlink" to={textbtn === "Open Tender" && "/home/open_tender"}><Button className="btn-bidnow-tender">{textbtn} &nbsp; {icon}</Button></NavLink>
-        )
+            <NavLink className="navlink" to={this.props.user === null ? "/home/login"  : textbtn === "Open Tender" && "/home/open_tender"}><Button className="btn-bidnow-tender">{textbtn} &nbsp; {icon}</Button></NavLink>
+            )
     }
     render() {
         return (
@@ -122,4 +123,9 @@ class Home extends Component {
         )
     }
 }
-export default Home
+const mapStateToProps = (state) => {
+    return ({
+      user: state.authReducers.user
+    })
+  }
+export default connect(mapStateToProps,null)(Home)

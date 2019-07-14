@@ -5,21 +5,61 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Bidicon from 'react-icons/lib/fa/plus-circle';
 import Loginicon from 'react-icons/lib/md/person';
+import Logouticon from 'react-icons/lib/fa/sign-out';
 import { NavLink } from "react-router-dom";
+import firebase from "../../config/firebase";
+import { connect } from "react-redux";
+import { removeUser } from "../../store/action/action";
+import Swal from "sweetalert2"
+import "./Appbar.css";
 
-import "./Appbar.css"
-export default function ButtonAppBar() {
-  return (
-    <div style={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography className="Logo" variant="h6" style={{ flexGrow: 1 }}>
-            E-TENDER
-          </Typography>
-          <Button color="inherit">Bids&nbsp;<Bidicon /></Button>
-          <NavLink className="navlink" to="/home/login"><Button color="inherit">Login &nbsp;<Loginicon /></Button></NavLink>
-        </Toolbar>
-      </AppBar>
-    </div>
-  );
+
+class ButtonAppBar extends React.Component {
+
+  logout = () => {
+    firebase.auth().signOut().then(() => {
+      this.props.removeUser()
+      Swal.fire({
+        type: 'success',
+        title: 'Logout',
+        text: "Logout successfully....!",
+    })
+      this.props.history.push("/")
+    }).catch((error) => {
+      // An error happened.
+      console.log(error)
+    });
+  }
+
+  render() {
+    console.log(this.props.user)
+    return (
+      <div style={{ flexGrow: 1 }}>
+        <AppBar position="static">
+          <Toolbar>
+            <Typography className="Logo" variant="h6" style={{ flexGrow: 1 }}>
+              E-TENDER
+            </Typography>
+            <Button color="inherit">Bids&nbsp;<Bidicon /></Button>
+            {this.props.user === null ? <NavLink className="navlink" to="/home/login"><Button color="inherit">Login &nbsp;<Loginicon /></Button></NavLink>
+              : <NavLink className="navlink" ><Button onClick={this.logout} color="inherit">Logout &nbsp;<Logouticon /></Button></NavLink>
+            }
+          </Toolbar>
+        </AppBar>
+      </div>
+    );
+  }
 }
+const mapStateToProps = (state) => {
+  return ({
+    user: state.authReducers.user
+  })
+}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    removeUser: () => dispatch(removeUser())
+  }
+
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ButtonAppBar)

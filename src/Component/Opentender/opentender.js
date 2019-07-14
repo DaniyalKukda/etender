@@ -41,9 +41,61 @@ class Opentender extends Component {
             siteplan: "",
             buildingPermit: "",
             materialAndSpecification: "",
-            loading: false
+            loading: false,
+            uploading: ""
         }
     }
+
+    saveData = (obj) => {
+        let { engineeringdrawingsURL, buildingPermitURL, siteplanURL, materialAndSpecificationURL } = this.state;
+        if (engineeringdrawingsURL !== "", siteplanURL !== "", buildingPermitURL !== "", materialAndSpecificationURL !== "") {
+            this.setState({
+                loading: true
+            })
+            setTimeout(() => {
+                firebase.database().ref("openTender/" + this.props.user.uid).push(obj).then((success) => {
+                    Swal.fire({
+                        type: 'success',
+                        title: 'Open Tender',
+                        text: 'Tender is Successfully Posted...',
+                    })
+                    this.setState({
+                        loading: false,
+                        engineeringdrawings:"",
+                        siteplan:"",
+                        buildingPermit:"",
+                        materialAndSpecification:"",
+                        materialAndSpecification:"",
+                        tenderName:"",
+                        Description:"",
+                        plotno:"",
+                        location:"",
+                        state:"",
+                        buildingType:"",
+                        selectedDate:""
+                    })
+                }).catch((err) => {
+                    console.error(err.message);
+                    console.log(err);
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Oops...',
+                        text: err.message,
+                    })
+                })
+            }, 20000)
+        } else {
+            alert("please wait files is uploading")
+            setTimeout(() => {
+                Swal.fire({
+                    type: 'success',
+                    title: 'Ready....!',
+                    text: "File is Uploaded now submit tender",
+                }) 
+            }, 30000);
+        }
+}
+    
     handleChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
@@ -146,7 +198,7 @@ class Opentender extends Component {
             state,
             location,
             buildingType,
-            selectedDate,
+            closingDate: selectedDate,
             engineeringdrawingsURL,
             siteplanURL,
             buildingPermitURL,
@@ -154,11 +206,7 @@ class Opentender extends Component {
             otherURL,
             uid: this.props.user.uid
         }
-        this.setState({
-            loading: true
-        })
-        setTimeout(() => console.log(obj), 20000)
-        
+        this.saveData(obj)
     }
     render() {
         let { RFQNO, companyName, expertise, error } = this.state
@@ -318,6 +366,22 @@ class Opentender extends Component {
                                                     this.setState({
                                                         engineeringdrawingsURL: urlref,
                                                     })
+                                                }).catch((err) => {
+                                                    console.error(err.message);
+                                                    console.log(err);
+                                                    Swal.fire({
+                                                        type: 'error',
+                                                        title: 'Oops...',
+                                                        text: err.message,
+                                                    })
+                                                })
+                                            }).catch((err) => {
+                                                console.error(err.message);
+                                                console.log(err);
+                                                Swal.fire({
+                                                    type: 'error',
+                                                    title: 'Oops...',
+                                                    text: err.message,
                                                 })
                                             })
                                         }}
@@ -341,6 +405,22 @@ class Opentender extends Component {
                                                     this.setState({
                                                         siteplanURL: urlref,
                                                     })
+                                                }).catch((err) => {
+                                                    console.error(err.message);
+                                                    console.log(err);
+                                                    Swal.fire({
+                                                        type: 'error',
+                                                        title: 'Oops...',
+                                                        text: err.message,
+                                                    })
+                                                })
+                                            }).catch((err) => {
+                                                console.error(err.message);
+                                                console.log(err);
+                                                Swal.fire({
+                                                    type: 'error',
+                                                    title: 'Oops...',
+                                                    text: err.message,
                                                 })
                                             })
                                         }}
@@ -364,6 +444,22 @@ class Opentender extends Component {
                                                     this.setState({
                                                         buildingPermitURL: urlref,
                                                     })
+                                                }).catch((err) => {
+                                                    console.error(err.message);
+                                                    console.log(err);
+                                                    Swal.fire({
+                                                        type: 'error',
+                                                        title: 'Oops...',
+                                                        text: err.message,
+                                                    })
+                                                })
+                                            }).catch((err) => {
+                                                console.error(err.message);
+                                                console.log(err);
+                                                Swal.fire({
+                                                    type: 'error',
+                                                    title: 'Oops...',
+                                                    text: err.message,
                                                 })
                                             })
                                         }}
@@ -387,6 +483,22 @@ class Opentender extends Component {
                                                     this.setState({
                                                         materialAndSpecificationURL: urlref,
                                                     })
+                                                }).catch((err) => {
+                                                    console.error(err.message);
+                                                    console.log(err);
+                                                    Swal.fire({
+                                                        type: 'error',
+                                                        title: 'Oops...',
+                                                        text: err.message,
+                                                    })
+                                                })
+                                            }).catch((err) => {
+                                                console.error(err.message);
+                                                console.log(err);
+                                                Swal.fire({
+                                                    type: 'error',
+                                                    title: 'Oops...',
+                                                    text: err.message,
                                                 })
                                             })
                                         }}
@@ -407,6 +519,22 @@ class Opentender extends Component {
                                                     this.setState({
                                                         otherURL: urlref
                                                     })
+                                                }).catch((err) => {
+                                                    console.error(err.message);
+                                                    console.log(err);
+                                                    Swal.fire({
+                                                        type: 'error',
+                                                        title: 'Oops...',
+                                                        text: err.message,
+                                                    })
+                                                })
+                                            }).catch((err) => {
+                                                console.error(err.message);
+                                                console.log(err);
+                                                Swal.fire({
+                                                    type: 'error',
+                                                    title: 'Oops...',
+                                                    text: err.message,
                                                 })
                                             })
                                         }}
@@ -418,6 +546,7 @@ class Opentender extends Component {
                                         className="btn-login" fullWidth={true}>
                                         Open Tender
                                     </Button>
+                                    {/* <p className="error" id="upl">"please wait"</p> */}
                                     {this.state.loading && <img style={{ alignSelf: "center" }} src={require("../../assets/Images/loading.gif")} height="70px" width="70px" />}
 
                                 </div>
