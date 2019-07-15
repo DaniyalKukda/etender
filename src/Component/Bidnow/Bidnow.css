@@ -1,0 +1,12 @@
+.bidNowContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /* background-color: white; */
+}
+.bidNowheading{
+    display: flex;
+    justify-content: center;
+    font-family: "calibri";
+}

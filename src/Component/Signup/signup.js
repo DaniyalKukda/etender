@@ -316,6 +316,7 @@ class Signup extends Component {
                             <Select
                                 native
                                 name="country"
+                                fullWidth={true}
                                 onChange={this.handleChange}
                                 input={<FilledInput name="country" id="filled-age-native-simple" />}
                             >
@@ -341,6 +342,7 @@ class Signup extends Component {
                             <Select
                                 native
                                 name="expertise"
+                                fullWidth={true}
                                 onChange={this.handleChange}
                                 input={<FilledInput name="Expertise" id="filled-age-native-simple" />}
                             >

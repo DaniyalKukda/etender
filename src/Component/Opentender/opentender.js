@@ -54,11 +54,6 @@ class Opentender extends Component {
             })
             setTimeout(() => {
                 firebase.database().ref("openTender/" + this.props.user.uid).push(obj).then((success) => {
-                    Swal.fire({
-                        type: 'success',
-                        title: 'Open Tender',
-                        text: 'Tender is Successfully Posted...',
-                    })
                     this.setState({
                         loading: false,
                         engineeringdrawings:"",
@@ -74,6 +69,12 @@ class Opentender extends Component {
                         buildingType:"",
                         selectedDate:""
                     })
+                    Swal.fire({
+                        type: 'success',
+                        title: 'Open Tender',
+                        text: 'Tender is Successfully Posted...',
+                    })
+                    
                 }).catch((err) => {
                     console.error(err.message);
                     console.log(err);
@@ -83,7 +84,7 @@ class Opentender extends Component {
                         text: err.message,
                     })
                 })
-            }, 20000)
+            }, 10000)
         } else {
             alert("please wait files is uploading")
             setTimeout(() => {
@@ -204,12 +205,13 @@ class Opentender extends Component {
             buildingPermitURL,
             materialAndSpecificationURL,
             otherURL,
-            uid: this.props.user.uid
+            uid: this.props.user.uid,
+            status:"Not Awarded"
         }
         this.saveData(obj)
     }
     render() {
-        let { RFQNO, companyName, expertise, error } = this.state
+        let { engineeringdrawings, siteplan, buildingPermit, materialAndSpecification, RFQNO, companyName, expertise, tenderName, Description, plotno, state, location, buildingType, selectedDate, engineeringdrawingsURL, siteplanURL, buildingPermitURL, otherURL, materialAndSpecificationURL, error } = this.state
         return (
             <div>
                 <div>
@@ -266,6 +268,7 @@ class Opentender extends Component {
                                     <Select
                                         native
                                         name="tenderName"
+                                        value={tenderName}
                                         onChange={this.handleChange}
                                         input={<FilledInput name="tenderName" id="filled-age-native-simple" />}
                                     >
@@ -278,6 +281,7 @@ class Opentender extends Component {
                                     style={{ display: "block" }}
                                     id="outlined-name-input"
                                     label="Description"
+                                    value={Description}
                                     type="text"
                                     name="Description"
                                     margin="normal"
@@ -293,6 +297,7 @@ class Opentender extends Component {
                                     <Select
                                         native
                                         name="buildingType"
+                                        value={buildingType}
                                         onChange={this.handleChange}
                                         input={<FilledInput name="buildingType" id="filled-age-native-simple" />}
                                     >
@@ -304,6 +309,7 @@ class Opentender extends Component {
                                     required
                                     style={{ display: "block" }}
                                     id="outlined-name-input"
+                                    value={state}
                                     label="State"
                                     type="text"
                                     name="state"
@@ -317,6 +323,7 @@ class Opentender extends Component {
                                     id="outlined-name-input"
                                     label="Plot No"
                                     type="number"
+                                    value={plotno}
                                     name="plotno"
                                     margin="normal"
                                     variant="outlined"
@@ -327,6 +334,7 @@ class Opentender extends Component {
                                     style={{ display: "block" }}
                                     id="outlined-name-input"
                                     label="Location"
+                                    value={location}
                                     type="text"
                                     name="location"
                                     margin="normal"
@@ -339,6 +347,7 @@ class Opentender extends Component {
                                     id="date"
                                     label="Closing Date"
                                     type="date"
+                                    value={selectedDate}
                                     InputLabelProps={{
                                         shrink: true,
                                     }}

@@ -9,6 +9,7 @@ import Logouticon from 'react-icons/lib/fa/sign-out';
 import { NavLink } from "react-router-dom";
 import firebase from "../../config/firebase";
 import { connect } from "react-redux";
+import {withRouter} from "react-router-dom";
 import { removeUser } from "../../store/action/action";
 import Swal from "sweetalert2"
 import "./Appbar.css";
@@ -32,12 +33,11 @@ class ButtonAppBar extends React.Component {
   }
 
   render() {
-    console.log(this.props.user)
     return (
       <div style={{ flexGrow: 1 }}>
         <AppBar position="static">
           <Toolbar>
-            <Typography className="Logo" variant="h6" style={{ flexGrow: 1 }}>
+            <Typography onClick={() => this.props.history.push("/")} className="Logo" variant="h6" style={{ flexGrow: 1 , cursor:"pointer" }}>
               E-TENDER
             </Typography>
             <Button color="inherit">Bids&nbsp;<Bidicon /></Button>
@@ -62,4 +62,4 @@ const mapDispatchToProps = (dispatch) => {
 
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ButtonAppBar)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ButtonAppBar))

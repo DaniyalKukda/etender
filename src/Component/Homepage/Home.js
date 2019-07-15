@@ -19,7 +19,7 @@ import { Button } from '@material-ui/core';
 class Home extends Component {
     renderButton(textbtn, icon) {
         return (
-            <NavLink className="navlink" to={this.props.user === null ? "/home/login"  : textbtn === "Open Tender" && "/home/open_tender"}><Button className="btn-bidnow-tender">{textbtn} &nbsp; {icon}</Button></NavLink>
+            <NavLink className="navlink" to={this.props.user === null ? "/home/login"  : textbtn === "Open Tender" && "/home/open_tender" || "/home/bid_now"}><Button className="btn-bidnow-tender">{textbtn} &nbsp; {icon}</Button></NavLink>
             )
     }
     render() {

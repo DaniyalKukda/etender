@@ -6,6 +6,7 @@ import Login from "./Login/Login";
 import Signup from "./Signup/signup";
 import Profile from "./Myprofile/Profile";
 import Opentender from "./Opentender/opentender";
+import Bidnow from "./Bidnow/Bidnow";
 
 class Routes extends Component {
     render() {
@@ -19,6 +20,7 @@ class Routes extends Component {
                     <Route path="/home/signup" component={Signup} />
                     <Route path="/home/my_profile" component={Profile} />
                     <Route path="/home/open_tender" component={Opentender} />
+                    <Route path="/home/bid_now" component={Bidnow} />
                 </Router>
             </div>
         )
