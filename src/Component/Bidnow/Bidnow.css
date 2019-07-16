@@ -10,3 +10,25 @@
     justify-content: center;
     font-family: "calibri";
 }
+.MuiDialog-paperScrollPaper {
+    display: block !important;
+}
+.btn-bidnow{
+    background-color: #37B44E !important;
+    color: #fff !important;
+    font-family: "Calibri";
+    outline: none;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.btn-bidnow:hover{
+    background-color: #1F9947 !important;
+}
+.tablecontainer{
+    width: 98%;
+    background-color: white;
+    overflow-x: auto;
+}

@@ -8,50 +8,52 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import firebase from "../../config/firebase";
-
 import "./Bidnow.css"
-import { Button } from '@material-ui/core';
+import Modal from "../Modal/Modal"
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
-
+var a;
 class Bidnow extends React.Component {
-    constructor(){
+    constructor() {
         super();
         this.state = {
-            data:[]
+            data: [],
+            loading2:true,
+            open:false,
         }
     }
     fetchData = () => {
-        firebase.database().ref("openTender/").on("value",(value) => {
+        firebase.database().ref("openTender/").on("value", (value) => {
             let arr = value.val();
             let data = [];
-            for(var key in arr){
-                for(var key2 in arr[key]){
-                        data.push(arr[key][key2])
+            for (var key in arr) {
+                for (var key2 in arr[key]) {
+                    data.push(arr[key][key2])
                 }
             }
             this.setState({
-                data
+                data,
+                loading2:false
             })
         })
     }
-    componentDidMount(){
+    componentDidMount() {
         this.fetchData()
     }
+    openModal = (open) => {
+        this.setState({
+            open
+        })  
+       }
+    shouldComponentUpdate(){
+        if(this.state.open){
+            return false
+        }
+        return true
+    }
     render() {
-        let {data} = this.state
+        let { data } = this.state
         return (
-            <div style={{display:"flex" , flexDirection:"column" , justifyContent:"space-between"}}>
+            <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
                 <div>
                     <AppBar />
                 </div>
@@ -59,38 +61,38 @@ class Bidnow extends React.Component {
                     <div className="bidNowheading">
                         <h1>Bid Now</h1>
                     </div>
-                    <div>
+                    {this.state.loading2 ? <img src={require("../../assets/Images/loading2.gif")} height="250" width="270" /> : <div className="tablecontainer">
                         <Paper>
                             <Table>
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>RFQ No</TableCell>
-                                        <TableCell>Tender Name</TableCell>
-                                        <TableCell>Description</TableCell>
-                                        <TableCell>Building Type</TableCell>
-                                        <TableCell>State</TableCell>
-                                        <TableCell>Location</TableCell>
-                                        <TableCell>Closing Date</TableCell>
-                                        <TableCell>Attachments</TableCell>
-                                        <TableCell>Timeline</TableCell>
-                                        <TableCell>Status</TableCell>
-                                        <TableCell>Actions</TableCell>
+                                        <TableCell align="right">RFQ No</TableCell>
+                                        <TableCell align="right">Tender Name</TableCell>
+                                        <TableCell align="right">Description</TableCell>
+                                        <TableCell align="right">Building Type</TableCell>
+                                        <TableCell align="right">State</TableCell>
+                                        <TableCell align="right">Location</TableCell>
+                                        <TableCell align="right">Closing Date</TableCell>
+                                        <TableCell align="right">Attachments</TableCell>
+                                        {/* <TableCell align="right">Timeline</TableCell> */}
+                                        <TableCell align="right">Status</TableCell>
+                                        <TableCell align="right">Actions</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    
+
                                     {data && data.map(row => (
                                         <TableRow key={row.rf}>
                                             <TableCell component="th" scope="row">
                                                 {row.RFQNO}
                                             </TableCell>
-                                            <TableCell>{row.tenderName}</TableCell>
-                                            <TableCell>{row.Description}</TableCell>
-                                            <TableCell>{row.buildingType}</TableCell>
-                                            <TableCell>{row.location}</TableCell>
-                                            <TableCell>{row.state}</TableCell>
-                                            <TableCell>{row.closingDate}</TableCell>
-                                            <TableCell><ul style={{ margin: 0, padding: 0, listStyleType: "none" }}>
+                                            <TableCell align="right" >{row.tenderName}</TableCell>
+                                            <TableCell align="right" >{row.Description}</TableCell>
+                                            <TableCell align="right" >{row.buildingType}</TableCell>
+                                            <TableCell align="right" >{row.location}</TableCell>
+                                            <TableCell align="right" >{row.state}</TableCell>
+                                            <TableCell align="right" >{row.closingDate}</TableCell>
+                                            <TableCell align="right" ><ul style={{ margin: 0, padding: 0, listStyleType: "none" }}>
                                                 <li><a href={row.engineeringdrawingsURL} target="blank">Engineering Drawing</a></li>
                                                 <li><a href={row.buildingPermitURL} target="blank">Building Permit</a></li>
                                                 <li><a href={row.materialAndSpecificationURL} target="blank">Material&Specification</a></li>
@@ -98,16 +100,17 @@ class Bidnow extends React.Component {
                                                 {row.otherURL !== "" ? <li><a href={row.otherURL} target="blank">Other</a></li> : null}
 
                                             </ul></TableCell>
-                                            <TableCell>{row.protein}</TableCell>
-                                            <TableCell>{row.status}</TableCell>
-                                            <TableCell><a style={{padding:"0px"}}>Bid Now</a></TableCell>
+                                            {/* <TableCell align="right">{row.protein}</TableCell> */}
+                                            <TableCell align="right">{row.status}</TableCell>
+                                            <TableCell align="right"><button onClick={()=> this.state.open() } className="btn-bidnow">Bid Now</button></TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
                             </Table>
                         </Paper>
 
-                    </div>
+                    <Modal open={this.openModal} />
+                    </div>}
                 </div>
                 <div>
                     <Footer />
