@@ -40,7 +40,7 @@ class ButtonAppBar extends React.Component {
             <Typography onClick={() => this.props.history.push("/")} className="Logo" variant="h6" style={{ flexGrow: 1 , cursor:"pointer" }}>
               E-TENDER
             </Typography>
-            <Button color="inherit">Bids&nbsp;<Bidicon /></Button>
+            <NavLink className="navlink" to="/home/bids" ><Button color="inherit">Bids&nbsp;<Bidicon /></Button></NavLink>
             {this.props.user === null ? <NavLink className="navlink" to="/home/login"><Button color="inherit">Login &nbsp;<Loginicon /></Button></NavLink>
               : <NavLink className="navlink" ><Button onClick={this.logout} color="inherit">Logout &nbsp;<Logouticon /></Button></NavLink>
             }

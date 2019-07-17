@@ -12,7 +12,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
 import "./opentender.css"
-import { async } from 'q';
+
 class Opentender extends Component {
     constructor(props) {
         super(props);

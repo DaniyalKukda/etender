@@ -1,0 +1,18 @@
+.BidsContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /* background-color: white; */
+}
+.Bidsheading{
+    display: flex;
+    justify-content: center;
+    font-family: "calibri";
+}
+.BidsFeilds{
+    width: 90%;
+    height: 500px;
+    display: flex;
+    justify-content: space-around;
+}
