@@ -10,17 +10,60 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import FilledInput from '@material-ui/core/FilledInput';
-
+import Swal from "sweetalert2"
 function Model(props) {
     const [open, setOpen] = React.useState(false);
 
     function handleClickOpen() {
         setOpen(true);
+        console.log(props.data)
     }
     props.open(handleClickOpen)
 
     function handleClose() {
         setOpen(false);
+    }
+    function handleInput() {
+        let totalAmount = document.getElementById("totalAmount").value;
+        let Currency = document.getElementById("Currency").value;
+        let Proposal = document.getElementById("outlined-file-model").files[0];
+        if(totalAmount === "") {
+            Swal.fire({
+                position: 'top-end',
+                showConfirmButton: false,
+                type: 'error',
+                title: 'Oops',
+                text: 'Enter Total Amount...',
+            })
+            return false
+        }
+        if(Currency === "") {
+            Swal.fire({
+                position: 'top-end',
+                showConfirmButton: false,
+                type: 'error',
+                title: 'Oops',
+                text: 'Select Currency...',
+            })
+            return false
+        }
+        if(Proposal === undefined) {
+            Swal.fire({
+                position: 'top-end',
+                showConfirmButton: false,
+                type: 'error',
+                title: 'Oops',
+                text: 'Upload Proposal PDF...',
+            })
+            return false
+        }
+        let obj = {
+            totalAmount,
+            Currency,
+            Proposal
+        }
+        props.getData(obj)
+        handleClose()
     }
     const CURRENCY = ["EUR", "GBP", "DZD", "ARP", "AUD", "ATS", "BSD", "BBD", "BEF", "BMD", "BRR", "BGL", "CAD", "CLP", "CNY", "CYP", "CSK", "DKK", "NLG", "XCD", "EGP", "FJD", "FIM", "FRF", "DEM", "XAU", "GRD", "HKD", "HUF", "ISK", "INR", "IDR", "IEP", "ILS", "ITL", "JMD", "JPY", "JOD", "KRW", "LBP", "LUF", "MYR", "MXP", "NLG", "NZD", "NOK", "PKR", "XPD", "PHP", "XPT", "PLZ", "PTE", "ROL", "RUR", "SAR", "XAG", "SGD", "SKK", "ZAR", "KRW", "ESP", "XDR", "SDD", "SEK", "CHF", "TWD", "THB", "TTD", "TRL", "VEB", "ZMK", "EUR", "XCD", "XDR", "XAG", "XAU", "XPD", "XPT",]
     return (
@@ -37,15 +80,16 @@ function Model(props) {
                             label="Total Amount"
                             type="number"
                             fullWidth
-                        />
+                         />
                         <br />
                         <br />
                         <FormControl variant="filled" fullWidth={true}>
                             <InputLabel htmlFor="filled-age-native-simple">Currency</InputLabel>
                             <Select
-                            fullWidth
+                                fullWidth
                                 native
                                 name="Currency"
+                                id="Currency"
                                 input={<FilledInput name="Currency" id="filled-age-native-simple" />}
                             >
                                 <option value="" />
@@ -54,11 +98,11 @@ function Model(props) {
                         </FormControl>
                         <br />
                         <br />
-                        <label style={{color:"black"}}>Attach Proposal(PDF)</label>
+                        <label style={{ color: "black" }}>Attach Proposal(PDF)</label>
                         &nbsp;&nbsp;&nbsp;
                         <input
                             required
-                            id="outlined-file"
+                            id="outlined-file-model"
                             accept="application/pdf"
                             type="file"
                         />
@@ -69,7 +113,7 @@ function Model(props) {
                     <Button onClick={handleClose} color="primary">
                         Cancel
           </Button>
-                    <Button onClick={handleClose} color="primary">
+                    <Button onClick={handleInput} color="primary">
                         Submit
           </Button>
                 </DialogActions>

@@ -10,15 +10,16 @@ import Paper from '@material-ui/core/Paper';
 import firebase from "../../config/firebase";
 import "./Bidnow.css"
 import Modal from "../Modal/Modal"
-
-var a;
+import { connect } from "react-redux"
+import Swal from "sweetalert2"
 class Bidnow extends React.Component {
     constructor() {
         super();
         this.state = {
             data: [],
-            loading2:true,
-            open:false,
+            loading2: true,
+            open: false,
+            bidData: ""
         }
     }
     fetchData = () => {
@@ -32,7 +33,7 @@ class Bidnow extends React.Component {
             }
             this.setState({
                 data,
-                loading2:false
+                loading2: false
             })
         })
     }
@@ -42,13 +43,52 @@ class Bidnow extends React.Component {
     openModal = (open) => {
         this.setState({
             open
-        })  
-       }
-    shouldComponentUpdate(){
-        if(this.state.open){
+        })
+    }
+    HandleModelData = (para) => {
+        this.state.open()
+        this.setState({
+            para
+        })
+    }
+    shouldComponentUpdate() {
+        if (this.state.open) {
             return false
         }
         return true
+    }
+    getDataFromChild = (obj) => {
+        let { para } = this.state
+        let data = { ...para }
+        data.totalAmount = obj.totalAmount;
+        data.Currency = obj.Currency;
+        // data.Proposal = obj.Proposal;
+        let storageRef = firebase.storage().ref().child(`proposal/${obj.Proposal.name}`)
+        storageRef.put(obj.Proposal).then((url) => {
+            url.ref.getDownloadURL().then((urlref) => {
+                data.Proposal = urlref;
+                let userId = this.props.user.uid
+                firebase.database().ref("bidnow/" + userId).set(data).then((res) => {
+                    Swal.fire({
+                        position: 'top-end',
+                        type: 'success',
+                        title: 'Bid!',
+                        text: 'Bid submitted Successfully...',
+                    })
+
+                }).catch((err) => {
+                    console.error(err.message);
+                    console.log(err);
+                    Swal.fire({
+                        position: 'top-end',
+                        type: 'error',
+                        title: 'Oops...',
+                        text: err.message,
+                    })
+                })
+            })
+        })
+        console.log(data)
     }
     render() {
         let { data } = this.state
@@ -75,14 +115,14 @@ class Bidnow extends React.Component {
                                         <TableCell align="right">Closing Date</TableCell>
                                         <TableCell align="right">Attachments</TableCell>
                                         {/* <TableCell align="right">Timeline</TableCell> */}
-                                        <TableCell align="right">Status</TableCell>
+                                        {/* <TableCell align="right">Status</TableCell> */}
                                         <TableCell align="right">Actions</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
 
                                     {data && data.map(row => (
-                                        <TableRow key={row.rf}>
+                                        <TableRow key={row.RFQNO}>
                                             <TableCell component="th" scope="row">
                                                 {row.RFQNO}
                                             </TableCell>
@@ -100,16 +140,16 @@ class Bidnow extends React.Component {
                                                 {row.otherURL !== "" ? <li><a href={row.otherURL} target="blank">Other</a></li> : null}
 
                                             </ul></TableCell>
-                                            {/* <TableCell align="right">{row.protein}</TableCell> */}
-                                            <TableCell align="right">{row.status}</TableCell>
-                                            <TableCell align="right"><button onClick={()=> this.state.open() } className="btn-bidnow">Bid Now</button></TableCell>
+                                            {/* <TableCell align="right">{row}</TableCell> */}
+                                            {/* <TableCell align="right">{row.status}</TableCell> */}
+                                            <TableCell align="right"><button onClick={() => this.HandleModelData(row)} className="btn-bidnow">Bid Now</button></TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
                             </Table>
                         </Paper>
 
-                    <Modal open={this.openModal} />
+                        <Modal getData={this.getDataFromChild} open={this.openModal} />
                     </div>}
                 </div>
                 <div>
@@ -119,4 +159,9 @@ class Bidnow extends React.Component {
         )
     }
 }
-export default Bidnow
+const mapStateToProps = (state) => {
+    return ({
+        user: state.authReducers.user
+    })
+}
+export default connect(mapStateToProps,null)(Bidnow)
