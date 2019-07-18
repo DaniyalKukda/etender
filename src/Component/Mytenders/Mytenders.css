@@ -1,0 +1,16 @@
+.MyTendersContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /* background-color: white; */
+}
+.MyTendersheading{
+    display: flex;
+    justify-content: center;
+    font-family: "calibri";
+}
+.MyTendersFeilds{
+    width: 90%;
+    height: auto;
+}

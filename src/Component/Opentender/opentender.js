@@ -206,7 +206,7 @@ class Opentender extends Component {
             materialAndSpecificationURL,
             otherURL,
             uid: this.props.user.uid,
-            status:"Not Awarded"
+            status:"unassigned"
         }
         this.saveData(obj)
     }

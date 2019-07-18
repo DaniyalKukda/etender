@@ -68,9 +68,8 @@ class Bidnow extends React.Component {
             url.ref.getDownloadURL().then((urlref) => {
                 data.Proposal = urlref;
                 let userId = this.props.user.uid
-                firebase.database().ref("bidnow/" + userId).set(data).then((res) => {
+                firebase.database().ref("bidnow/" + userId).push(data).then((res) => {
                     Swal.fire({
-                        position: 'top-end',
                         type: 'success',
                         title: 'Bid!',
                         text: 'Bid submitted Successfully...',
@@ -80,7 +79,6 @@ class Bidnow extends React.Component {
                     console.error(err.message);
                     console.log(err);
                     Swal.fire({
-                        position: 'top-end',
                         type: 'error',
                         title: 'Oops...',
                         text: err.message,
@@ -164,4 +162,4 @@ const mapStateToProps = (state) => {
         user: state.authReducers.user
     })
 }
-export default connect(mapStateToProps,null)(Bidnow)
+export default connect(mapStateToProps, null)(Bidnow)

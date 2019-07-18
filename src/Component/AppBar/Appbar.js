@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import Bidicon from 'react-icons/lib/fa/plus-circle';
 import Loginicon from 'react-icons/lib/md/person';
 import Logouticon from 'react-icons/lib/fa/sign-out';
+import User from 'react-icons/lib/fa/user';
 import { NavLink } from "react-router-dom";
 import firebase from "../../config/firebase";
 import { connect } from "react-redux";
@@ -41,6 +42,7 @@ class ButtonAppBar extends React.Component {
               E-TENDER
             </Typography>
             <NavLink className="navlink" to="/home/bids" ><Button color="inherit">Bids&nbsp;<Bidicon /></Button></NavLink>
+            {this.props.user !== null && <NavLink className="navlink" to="/home/my_tenders" ><Button color="inherit">My Profile&nbsp;<User /></Button></NavLink>}
             {this.props.user === null ? <NavLink className="navlink" to="/home/login"><Button color="inherit">Login &nbsp;<Loginicon /></Button></NavLink>
               : <NavLink className="navlink" ><Button onClick={this.logout} color="inherit">Logout &nbsp;<Logouticon /></Button></NavLink>
             }

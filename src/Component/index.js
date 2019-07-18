@@ -8,6 +8,8 @@ import Profile from "./Myprofile/Profile";
 import Opentender from "./Opentender/opentender";
 import Bidnow from "./Bidnow/Bidnow";
 import Bids from "./Bids/Bids";
+import MyOpenTenders from "./Mytenders/Mytenders";
+import MyOpenTenderStaus from "./MyOpenTendersStatus/MyOpenTenderStatus";
 
 class Routes extends Component {
     render() {
@@ -23,6 +25,8 @@ class Routes extends Component {
                     <Route path="/home/open_tender" component={Opentender} />
                     <Route path="/home/bid_now" component={Bidnow} />
                     <Route path="/home/bids" component={Bids} />
+                    <Route path="/home/my_tenders" component={MyOpenTenders} />
+                    <Route path="/home/myOpenTenderStatus:rfq" component={MyOpenTenderStaus} />
                 </Router>
             </div>
         )
