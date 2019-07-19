@@ -9,10 +9,7 @@ import Paper from '@material-ui/core/Paper';
 import firebase from "../../config/firebase";
 import { connect } from "react-redux";
 import Footer from "../Footer/Footer";
-import FilledInput from '@material-ui/core/FilledInput';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-
+import Swal from "sweetalert2";
 import "./Mytenders.css"
 
 class Myopentenders extends Component {
@@ -56,6 +53,66 @@ class Myopentenders extends Component {
         if(value === "Assigned"){
             this.props.history.push(`/home/myOpenTenderStatus${RFQ}`)
             return true
+        }else if(value === "Hold"){
+            let uid = this.props.user.uid;
+            let getTender = firebase.database().ref("openTender/" + uid);
+            getTender.once("value",(vale) => {
+                let data = vale.val();
+                for(var key in data){
+                    if(data[key].RFQNO === RFQ){
+                       getTender.child(key).update({"status" : "Hold"}).then((se) => {
+                            let getBidnow = firebase.database().ref("bidnow/");
+                            getBidnow.once("value",(va) => {
+                                let bid = va.val();
+                                for(var key in bid){
+                                    for(var key2 in bid[key]){
+                                        if(bid[key][key2].RFQNO === RFQ){
+                                            getBidnow.child(key+"/"+key2).update({"status" : "Hold"}).then((hogya) => {
+                                                Swal.fire({
+                                                    type: 'success',
+                                                    title: 'Hold',
+                                                    text: 'Successfully Hold Tender...',
+                                                })
+                                            })
+                                        }
+                                    }
+                                }
+                            })
+                        })
+                    }
+                }
+            })
+
+        }else if(value === "Cancel"){
+            let uid = this.props.user.uid;
+            let getTender = firebase.database().ref("openTender/" + uid);
+            getTender.once("value",(vale) => {
+                let data = vale.val();
+                for(var key in data){
+                    if(data[key].RFQNO === RFQ){
+                       getTender.child(key).update({"status" : "Cancel"}).then((se) => {
+                            let getBidnow = firebase.database().ref("bidnow/");
+                            getBidnow.once("value",(va) => {
+                                let bid = va.val();
+                                for(var key in bid){
+                                    for(var key2 in bid[key]){
+                                        if(bid[key][key2].RFQNO === RFQ){
+                                            getBidnow.child(key+"/"+key2).update({"status" : "Cancel"}).then((hogya) => {
+                                                Swal.fire({
+                                                    type: 'success',
+                                                    title: 'Cancel',
+                                                    text: 'Successfully Cancel Tender...',
+                                                })
+                                            })
+                                        }
+                                    }
+                                }
+                            })
+                        })
+                    }
+                }
+            })
+
         }
     }
     componentDidMount() {
