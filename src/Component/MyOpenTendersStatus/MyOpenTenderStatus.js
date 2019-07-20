@@ -8,12 +8,33 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import firebase from "../../config/firebase";
-
+import Modal from './awarModal'
 import "./MyOpenTenderStatus.css"
 
 class MyOpenTenderStatus extends Component {
-    state = {
-        data: []
+    constructor() {
+        super();
+        this.state = {
+            data: [],
+            open: false,
+        }
+    }
+    openModal = (open) => {
+        this.setState({
+            open
+        })
+    }
+    HandleModelData = (para) => {
+        this.state.open()
+        this.setState({
+            para
+        })
+    }
+    shouldComponentUpdate() {
+        if (this.state.open) {
+            return false
+        }
+        return true
     }
     fetchBid = () => {
         let rfq = this.props.match.params.rfq;
@@ -95,7 +116,7 @@ class MyOpenTenderStatus extends Component {
                                             <TableCell>{i+1}</TableCell>
                                             <TableCell>{v.totalAmount + `(${v.Currency})`}</TableCell>
                                             <TableCell><a target="blank" href={v.Proposal}>Attachment</a></TableCell>
-                                            <TableCell><button>Award</button></TableCell>
+                                            <TableCell><button onClick={() => this.HandleModelData("row")}>Award</button></TableCell>
                                         </TableBody>
                                     })
                                     }
@@ -103,6 +124,7 @@ class MyOpenTenderStatus extends Component {
                             </Paper>
                         </div>
                     </div>
+                    <Modal getData={this.getDataFromChild} open={this.openModal} />
                 </div>
                 <div>
                     <Footer />
