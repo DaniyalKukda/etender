@@ -10,6 +10,7 @@ import Bidnow from "./Bidnow/Bidnow";
 import Bids from "./Bids/Bids";
 import MyOpenTenders from "./Mytenders/Mytenders";
 import MyOpenTenderStaus from "./MyOpenTendersStatus/MyOpenTenderStatus";
+import Timeline from "./Timeline/Timeline";
 
 class Routes extends Component {
     render() {
@@ -27,6 +28,7 @@ class Routes extends Component {
                     <Route path="/home/bids" component={Bids} />
                     <Route path="/home/my_tenders" component={MyOpenTenders} />
                     <Route path="/home/myOpenTenderStatus:rfq" component={MyOpenTenderStaus} />
+                    <Route path="/home/timeline:rfq" component={Timeline} />
                 </Router>
             </div>
         )

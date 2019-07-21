@@ -8,7 +8,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import firebase from "../../config/firebase";
-import Modal from './awarModal'
+import Modal from './awarModal';
+import Swal from "sweetalert2";
+import { connect } from "react-redux";
 import "./MyOpenTenderStatus.css"
 
 class MyOpenTenderStatus extends Component {
@@ -27,7 +29,7 @@ class MyOpenTenderStatus extends Component {
     HandleModelData = (para) => {
         this.state.open()
         this.setState({
-            para
+            userId: para
         })
     }
     shouldComponentUpdate() {
@@ -53,6 +55,36 @@ class MyOpenTenderStatus extends Component {
                 data: arr
             })
         })
+    }
+    getDataFromChild = (obj) => {
+        let { userId } = this.state
+        let rfq = this.props.match.params.rfq;
+        obj.RFQNO = rfq
+        obj.userId = userId
+        let storageRef = firebase.storage().ref().child(`LOA/${obj.LOA.name}`)
+        storageRef.put(obj.LOA).then((url) => {
+            url.ref.getDownloadURL().then((urlref) => {
+                obj.LOA = urlref;
+                let userId = this.props.user.uid
+                firebase.database().ref("award/" + userId).push(obj).then((res) => {
+                    Swal.fire({
+                        type: 'success',
+                        title: 'Award!',
+                        text: 'Tender Awarded Successfully...',
+                    })
+
+                }).catch((err) => {
+                    console.error(err.message);
+                    console.log(err);
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Oops...',
+                        text: err.message,
+                    })
+                })
+            })
+        })
+        console.log(obj)
     }
     componentDidMount() {
         this.fetchBid()
@@ -111,12 +143,12 @@ class MyOpenTenderStatus extends Component {
                                             <TableCell></TableCell>
                                         </TableRow>
                                     </TableHead>
-                                    {data && data.map((v,i) => {
+                                    {data && data.map((v, i) => {
                                         return <TableBody>
-                                            <TableCell>{i+1}</TableCell>
+                                            <TableCell>{i + 1}</TableCell>
                                             <TableCell>{v.totalAmount + `(${v.Currency})`}</TableCell>
                                             <TableCell><a target="blank" href={v.Proposal}>Attachment</a></TableCell>
-                                            <TableCell><button onClick={() => this.HandleModelData("row")}>Award</button></TableCell>
+                                            <TableCell><button onClick={() => this.HandleModelData(v.uid)}>Award</button></TableCell>
                                         </TableBody>
                                     })
                                     }
@@ -134,4 +166,9 @@ class MyOpenTenderStatus extends Component {
         )
     }
 }
-export default MyOpenTenderStatus
+const mapStateToProps = (state) => {
+    return ({
+        user: state.authReducers.user
+    })
+}
+export default connect(mapStateToProps, null)(MyOpenTenderStatus)

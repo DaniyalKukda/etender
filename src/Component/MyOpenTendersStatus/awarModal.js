@@ -26,7 +26,7 @@ function Awardmodel(props) {
     function handleInput() {
         let totalAmount = document.getElementById("totalAmount").value;
         let Currency = document.getElementById("Currency").value;
-        let Proposal = document.getElementById("outlined-file-model").files[0];
+        let LOA = document.getElementById("Attach-file-model").files[0];
         if(totalAmount === "") {
             Swal.fire({
                 position: 'top-end',
@@ -47,7 +47,7 @@ function Awardmodel(props) {
             })
             return false
         }
-        if(Proposal === undefined) {
+        if(LOA === undefined) {
             Swal.fire({
                 position: 'top-end',
                 showConfirmButton: false,
@@ -60,9 +60,9 @@ function Awardmodel(props) {
         let obj = {
             totalAmount,
             Currency,
-            Proposal
+            LOA
         }
-        // props.getData(obj)
+        props.getData(obj)
         handleClose()
     }
     const CURRENCY = ["EUR", "GBP", "DZD", "ARP", "AUD", "ATS", "BSD", "BBD", "BEF", "BMD", "BRR", "BGL", "CAD", "CLP", "CNY", "CYP", "CSK", "DKK", "NLG", "XCD", "EGP", "FJD", "FIM", "FRF", "DEM", "XAU", "GRD", "HKD", "HUF", "ISK", "INR", "IDR", "IEP", "ILS", "ITL", "JMD", "JPY", "JOD", "KRW", "LBP", "LUF", "MYR", "MXP", "NLG", "NZD", "NOK", "PKR", "XPD", "PHP", "XPT", "PLZ", "PTE", "ROL", "RUR", "SAR", "XAG", "SGD", "SKK", "ZAR", "KRW", "ESP", "XDR", "SDD", "SEK", "CHF", "TWD", "THB", "TTD", "TRL", "VEB", "ZMK", "EUR", "XCD", "XDR", "XAG", "XAU", "XPD", "XPT",]
@@ -102,7 +102,7 @@ function Awardmodel(props) {
                         &nbsp;&nbsp;&nbsp;
                         <input
                             required
-                            id="outlined-file-model"
+                            id="Attach-file-model"
                             accept="application/pdf"
                             type="file"
                         />

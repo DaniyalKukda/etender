@@ -68,6 +68,7 @@ class Bidnow extends React.Component {
             url.ref.getDownloadURL().then((urlref) => {
                 data.Proposal = urlref;
                 let userId = this.props.user.uid
+                data.uid = userId
                 firebase.database().ref("bidnow/" + userId).push(data).then((res) => {
                     Swal.fire({
                         type: 'success',
