@@ -168,7 +168,7 @@ class Myopentenders extends Component {
                                                     {row.otherURL !== "" ? <li><a href={row.otherURL} target="blank">Other</a></li> : null}
 
                                                 </ul></TableCell>
-                                                <TableCell>0</TableCell>
+                                                <TableCell>{row.status == "Awarded" ? <button className="btn-bidnow" onClick={() => this.props.history.push(`/home/timeline${row.RFQNO}`)}>Timeline</button> : 0}</TableCell>
                                                 <TableCell>
                                                         <select
                                                             name="status"
@@ -181,6 +181,7 @@ class Myopentenders extends Component {
                                                         </select>
                                                 </TableCell>
                                             </TableRow>
+                                            
                                         ))}
                                     </TableBody>
                                 </Table>

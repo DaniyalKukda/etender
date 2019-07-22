@@ -65,13 +65,43 @@ class MyOpenTenderStatus extends Component {
         storageRef.put(obj.LOA).then((url) => {
             url.ref.getDownloadURL().then((urlref) => {
                 obj.LOA = urlref;
-                let userId = this.props.user.uid
-                firebase.database().ref("award/" + userId).push(obj).then((res) => {
-                    Swal.fire({
-                        type: 'success',
-                        title: 'Award!',
-                        text: 'Tender Awarded Successfully...',
+                let Id = this.props.user.uid
+                firebase.database().ref("award/" + Id).set(obj).then((res) => {
+
+                    let getBidnow = firebase.database().ref("bidnow/");
+                    getBidnow.once("value", (va) => {
+                        let bid = va.val();
+                        for (var key in bid) {
+                            for (var key2 in bid[key]) {
+                                if (bid[key][key2].RFQNO === parseInt(rfq) && bid[key][key2].uid === userId) {
+                                    console.log("pehla if chala")
+                                    getBidnow.child(key + "/" + key2).update({ "status": "Assigned" }).then((hogya) => {
+                                        let getTender = firebase.database().ref("openTender/" + Id);
+                                        getTender.once("value", (vale) => {
+                                            let data = vale.val();
+                                            for (var key in data) {
+                                                if (data[key].RFQNO === parseInt(rfq)) {
+                                                    getTender.child(key).update({ "status": "Awarded" })
+                                                }
+                                            }
+                                        })
+                                        this.props.history.push(`/home/timeline${rfq}`)
+                                        Swal.fire({
+                                            type: 'success',
+                                            title: 'Award',
+                                            text: 'Tender is Successfully Awarded...',
+                                        })
+                                    })
+                                }
+                                else if (bid[key][key2].RFQNO === parseInt(rfq) && bid[key][key2].uid !== userId) {
+                                    console.log("Dosra if chala")
+                                    getBidnow.child(key + "/" + key2).update({ "status": "Missed" })
+                                }
+
+                            }
+                        }
                     })
+
 
                 }).catch((err) => {
                     console.error(err.message);
@@ -84,10 +114,25 @@ class MyOpenTenderStatus extends Component {
                 })
             })
         })
-        console.log(obj)
+    }
+    checkStatus = () => {
+        let rfq = this.props.match.params.rfq;
+
+        let getTender = firebase.database().ref("openTender/" + this.props.user.uid);
+        getTender.once("value",(vale) => {
+            let data = vale.val();
+            for(var key in data){
+                if(data[key].RFQNO === parseInt(rfq)){
+                   this.setState({
+                       status:data[key].status
+                   })
+                }
+            }
+        })
     }
     componentDidMount() {
         this.fetchBid()
+        this.checkStatus()
     }
     render() {
         let { data } = this.state
@@ -104,7 +149,7 @@ class MyOpenTenderStatus extends Component {
                     </div>
                     <br />
                     <div className="MyTendersStatusFeilds">
-                        <div style={{ width: "500px" }}>
+                        <div style={{ width: "600px" }}>
                             <Paper>
                                 <Table>
                                     <TableHead>
@@ -148,7 +193,7 @@ class MyOpenTenderStatus extends Component {
                                             <TableCell>{i + 1}</TableCell>
                                             <TableCell>{v.totalAmount + `(${v.Currency})`}</TableCell>
                                             <TableCell><a target="blank" href={v.Proposal}>Attachment</a></TableCell>
-                                            <TableCell><button onClick={() => this.HandleModelData(v.uid)}>Award</button></TableCell>
+                                            <TableCell><button className="btn-bidnow" disabled={this.state.status === "Awarded" ? true : false} onClick={() => this.HandleModelData(v.uid)}>{this.state.status === "Awarded" ? "Awarded" : "Award"}</button></TableCell>
                                         </TableBody>
                                     })
                                     }

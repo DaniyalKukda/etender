@@ -1,0 +1,19 @@
+.TimeLineContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /* background-color: white; */
+}
+.TimeLineheading{
+    display: flex;
+    justify-content: center;
+    font-family: "calibri";
+}
+.TimeLineFeilds{
+    width: 90%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+   
+}
