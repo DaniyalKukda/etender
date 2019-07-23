@@ -65,8 +65,10 @@ class MyOpenTenderStatus extends Component {
         storageRef.put(obj.LOA).then((url) => {
             url.ref.getDownloadURL().then((urlref) => {
                 obj.LOA = urlref;
+                obj.timeline = "started";
+                obj.createdAt = Date.now();
                 let Id = this.props.user.uid
-                firebase.database().ref("award/" + Id).set(obj).then((res) => {
+                firebase.database().ref("award/" + Id).push(obj).then((res) => {
 
                     let getBidnow = firebase.database().ref("bidnow/");
                     getBidnow.once("value", (va) => {
@@ -74,8 +76,7 @@ class MyOpenTenderStatus extends Component {
                         for (var key in bid) {
                             for (var key2 in bid[key]) {
                                 if (bid[key][key2].RFQNO === parseInt(rfq) && bid[key][key2].uid === userId) {
-                                    console.log("pehla if chala")
-                                    getBidnow.child(key + "/" + key2).update({ "status": "Assigned" }).then((hogya) => {
+                                    getBidnow.child(key + "/" + key2).update({ "status": "Awarded" }).then((hogya) => {
                                         let getTender = firebase.database().ref("openTender/" + Id);
                                         getTender.once("value", (vale) => {
                                             let data = vale.val();

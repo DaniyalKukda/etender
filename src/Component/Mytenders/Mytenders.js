@@ -48,26 +48,26 @@ class Myopentenders extends Component {
             })
         })
     }
-    handleAssign(e,RFQ){
+    handleAssign(e, RFQ) {
         let value = e.target.value;
-        if(value === "Assigned"){
+        if (value === "Assigned") {
             this.props.history.push(`/home/myOpenTenderStatus${RFQ}`)
             return true
-        }else if(value === "Hold"){
+        } else if (value === "Hold") {
             let uid = this.props.user.uid;
             let getTender = firebase.database().ref("openTender/" + uid);
-            getTender.once("value",(vale) => {
+            getTender.once("value", (vale) => {
                 let data = vale.val();
-                for(var key in data){
-                    if(data[key].RFQNO === RFQ){
-                       getTender.child(key).update({"status" : "Hold"}).then((se) => {
+                for (var key in data) {
+                    if (data[key].RFQNO === RFQ) {
+                        getTender.child(key).update({ "status": "Hold" }).then((se) => {
                             let getBidnow = firebase.database().ref("bidnow/");
-                            getBidnow.once("value",(va) => {
+                            getBidnow.once("value", (va) => {
                                 let bid = va.val();
-                                for(var key in bid){
-                                    for(var key2 in bid[key]){
-                                        if(bid[key][key2].RFQNO === RFQ){
-                                            getBidnow.child(key+"/"+key2).update({"status" : "Hold"}).then((hogya) => {
+                                for (var key in bid) {
+                                    for (var key2 in bid[key]) {
+                                        if (bid[key][key2].RFQNO === RFQ) {
+                                            getBidnow.child(key + "/" + key2).update({ "status": "Hold" }).then((hogya) => {
                                                 Swal.fire({
                                                     type: 'success',
                                                     title: 'Hold',
@@ -83,21 +83,21 @@ class Myopentenders extends Component {
                 }
             })
 
-        }else if(value === "Cancel"){
+        } else if (value === "Cancel") {
             let uid = this.props.user.uid;
             let getTender = firebase.database().ref("openTender/" + uid);
-            getTender.once("value",(vale) => {
+            getTender.once("value", (vale) => {
                 let data = vale.val();
-                for(var key in data){
-                    if(data[key].RFQNO === RFQ){
-                       getTender.child(key).update({"status" : "Cancel"}).then((se) => {
+                for (var key in data) {
+                    if (data[key].RFQNO === RFQ) {
+                        getTender.child(key).update({ "status": "Cancel" }).then((se) => {
                             let getBidnow = firebase.database().ref("bidnow/");
-                            getBidnow.once("value",(va) => {
+                            getBidnow.once("value", (va) => {
                                 let bid = va.val();
-                                for(var key in bid){
-                                    for(var key2 in bid[key]){
-                                        if(bid[key][key2].RFQNO === RFQ){
-                                            getBidnow.child(key+"/"+key2).update({"status" : "Cancel"}).then((hogya) => {
+                                for (var key in bid) {
+                                    for (var key2 in bid[key]) {
+                                        if (bid[key][key2].RFQNO === RFQ) {
+                                            getBidnow.child(key + "/" + key2).update({ "status": "Cancel" }).then((hogya) => {
                                                 Swal.fire({
                                                     type: 'success',
                                                     title: 'Cancel',
@@ -170,18 +170,18 @@ class Myopentenders extends Component {
                                                 </ul></TableCell>
                                                 <TableCell>{row.status == "Awarded" ? <button className="btn-bidnow" onClick={() => this.props.history.push(`/home/timeline${row.RFQNO}`)}>Timeline</button> : 0}</TableCell>
                                                 <TableCell>
-                                                        <select
-                                                            name="status"
-                                                            onChange={(e) => this.handleAssign(e,row.RFQNO) }
-                                                        >
-                                                            <option selected value={row.status}>{row.status}</option>
-                                                            <option value="Assigned">Assigned</option>
-                                                            <option value="Hold">Hold</option>
-                                                            <option value="Cancel">Cancel</option>
-                                                        </select>
+                                                    <select
+                                                        name="status"
+                                                        onChange={(e) => this.handleAssign(e, row.RFQNO)}
+                                                    >
+                                                        <option selected value={row.status}>{row.status}</option>
+                                                        <option value="Assigned">Assigned</option>
+                                                        <option value="Hold">Hold</option>
+                                                        <option value="Cancel">Cancel</option>
+                                                    </select>
                                                 </TableCell>
                                             </TableRow>
-                                            
+
                                         ))}
                                     </TableBody>
                                 </Table>
@@ -216,7 +216,8 @@ class Myopentenders extends Component {
                                                 <TableCell>{row.buildingType}</TableCell>
                                                 <TableCell>{row.totalAmount + `(${row.Currency})`}</TableCell>
                                                 <TableCell><a target="blank" href={row.Proposal} >Download</a></TableCell>
-                                                <TableCell>0</TableCell>
+                                                <TableCell><TableCell>{row.status == "Awarded" ? <button className="btn-bidnow" onClick={() => this.props.history.push(`/home/timeline${row.RFQNO}`)}>Timeline</button> : 0}</TableCell>
+                                                </TableCell>
                                                 <TableCell>
                                                     {row.status}
                                                 </TableCell>

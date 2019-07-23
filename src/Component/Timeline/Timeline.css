@@ -15,5 +15,21 @@
     height: auto;
     display: flex;
     justify-content: center;
-   
 }
+.row{
+    background: #1F9947;
+}
+.th{
+    color: white !important;
+}
+#myProgress {
+    width: 100%;
+    background-color: #ddd;
+    border-radius: 50px;
+  }
+  
+  #myBar {
+    border-radius: 50px;
+    height: 30px;
+    background: #1F9947;
+  }
