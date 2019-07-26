@@ -65,7 +65,7 @@ function Model(props) {
         props.getData(obj)
         handleClose()
     }
-    const CURRENCY = ["EUR", "GBP", "DZD", "ARP", "AUD", "ATS", "BSD", "BBD", "BEF", "BMD", "BRR", "BGL", "CAD", "CLP", "CNY", "CYP", "CSK", "DKK", "NLG", "XCD", "EGP", "FJD", "FIM", "FRF", "DEM", "XAU", "GRD", "HKD", "HUF", "ISK", "INR", "IDR", "IEP", "ILS", "ITL", "JMD", "JPY", "JOD", "KRW", "LBP", "LUF", "MYR", "MXP", "NLG", "NZD", "NOK", "PKR", "XPD", "PHP", "XPT", "PLZ", "PTE", "ROL", "RUR", "SAR", "XAG", "SGD", "SKK", "ZAR", "KRW", "ESP", "XDR", "SDD", "SEK", "CHF", "TWD", "THB", "TTD", "TRL", "VEB", "ZMK", "EUR", "XCD", "XDR", "XAG", "XAU", "XPD", "XPT",]
+    const CURRENCY = ["USD" , "AED" , "EUR" , "GBP"]
     return (
         <div>
 

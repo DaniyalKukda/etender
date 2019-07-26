@@ -11,7 +11,15 @@ const removeUser = () => {
     }
 }
 
+const AddData = (data) => {
+    return {
+        type: "Modal_Data",
+        data
+    }
+}
+
 export {
     updateUser,
-    removeUser
+    removeUser,
+    AddData
 }

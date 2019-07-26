@@ -10,8 +10,10 @@ import Paper from '@material-ui/core/Paper';
 import firebase from "../../config/firebase";
 import Modal from './awarModal';
 import Swal from "sweetalert2";
+import { AddData } from "../../store/action/action"
 import { connect } from "react-redux";
 import "./MyOpenTenderStatus.css"
+import { async } from 'q';
 
 class MyOpenTenderStatus extends Component {
     constructor() {
@@ -26,23 +28,26 @@ class MyOpenTenderStatus extends Component {
             open
         })
     }
-    HandleModelData = (para) => {
+    HandleModelData = (data) => {
         this.state.open()
         this.setState({
-            userId: para
+            userId: data.uid
         })
+        this.props.AddData(data)
     }
     shouldComponentUpdate() {
-        if (this.state.open) {
-            return false
-        }
+        setTimeout(()=>{
+            if (this.state.open) {
+                return false
+            }
+        },1000)
         return true
     }
-    fetchBid = () => {
+    fetchBid = async () => {
         let rfq = this.props.match.params.rfq;
         rfq = rfq.trim()
         rfq = parseInt(rfq)
-        firebase.database().ref("bidnow/").on("value", (val) => {
+        await firebase.database().ref("bidnow/").on("value", (val) => {
             let value = val.val()
             let arr = []
             for (var key in value) {
@@ -120,13 +125,13 @@ class MyOpenTenderStatus extends Component {
         let rfq = this.props.match.params.rfq;
 
         let getTender = firebase.database().ref("openTender/" + this.props.user.uid);
-        getTender.once("value",(vale) => {
+        getTender.once("value", (vale) => {
             let data = vale.val();
-            for(var key in data){
-                if(data[key].RFQNO === parseInt(rfq)){
-                   this.setState({
-                       status:data[key].status
-                   })
+            for (var key in data) {
+                if (data[key].RFQNO === parseInt(rfq)) {
+                    this.setState({
+                        status: data[key].status
+                    })
                 }
             }
         })
@@ -194,7 +199,7 @@ class MyOpenTenderStatus extends Component {
                                             <TableCell>{i + 1}</TableCell>
                                             <TableCell>{v.totalAmount + `(${v.Currency})`}</TableCell>
                                             <TableCell><a target="blank" href={v.Proposal}>Attachment</a></TableCell>
-                                            <TableCell><button className="btn-bidnow" disabled={this.state.status === "Awarded" ? true : false} onClick={() => this.HandleModelData(v.uid)}>{this.state.status === "Awarded" ? "Awarded" : "Award"}</button></TableCell>
+                                            <TableCell><button className="btn-bidnow" disabled={this.state.status === "Awarded" ? true : false} onClick={() => this.HandleModelData(v)}>{this.state.status === "Awarded" ? "Awarded" : "Award"}</button></TableCell>
                                         </TableBody>
                                     })
                                     }
@@ -202,7 +207,33 @@ class MyOpenTenderStatus extends Component {
                             </Paper>
                         </div>
                     </div>
+
                     <Modal getData={this.getDataFromChild} open={this.openModal} />
+                </div>
+                <div>
+                    <form method="POST" action="https://mywallet.bring.ae/sci/form" target="_blank">
+                        <input type="hidden" name="merchant" value="IJ629962" />
+                        <input type="hidden" name="order" value="138543" />
+                        <input type="hidden" name="item_name" value="Testing payment" />
+                        <input type="hidden" name="item_number" value="123" />
+                        <input type="hidden" name="amount" value="125" />
+                        <input type="hidden" name="quantity" value="1" />
+                        <input type="hidden" name="currency" value="USD" />
+                        <input type="hidden" name="first_name" value="David" />
+                        <input type="hidden" name="last_name" value="Joi" />
+                        <input type="hidden" name="email" value="test@abc.com" />
+                        <input type="hidden" name="phone" value="12323456789" />
+                        <input type="hidden" name="address" value="213 Browning Lane" />
+                        <input type="hidden" name="city" value="Mount Upton" />
+                        <input type="hidden" name="state" value="New York" />
+                        <input type="hidden" name="country" value="United States" />
+                        <input type="hidden" name="postalcode" value="13809" />
+                        <input type="hidden" name="custom" value="comment" />
+                        <input type="hidden" name="notify_url" value="CALLBACKIPNURL" />
+                        <input type="hidden" name="success_url" value="https://www.facebook.com/" />
+                        <input type="hidden" name="fail_link" value="https://www.google.com/" />
+                        <button type="submit">Pay now!</button>
+                    </form>
                 </div>
                 <div>
                     <Footer />
@@ -217,4 +248,11 @@ const mapStateToProps = (state) => {
         user: state.authReducers.user
     })
 }
-export default connect(mapStateToProps, null)(MyOpenTenderStatus)
+const mapDispatchToProps = (dispatch) => {
+    return {
+        AddData: (data) => dispatch(AddData(data))
+    }
+
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyOpenTenderStatus)
