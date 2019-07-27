@@ -13,6 +13,9 @@ const reducer = (state = initial_state, action) => {
         case "Modal_Data": {
             return { ...state, data: action.data }
         }
+        case "Award_Data": {
+            return { ...state, data: action.awardData }
+        }
         default: {
             return state;
         }

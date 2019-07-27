@@ -17,9 +17,16 @@ const AddData = (data) => {
         data
     }
 }
+const AwardData = (awardData) => {
+    return {
+        type: "Award_Data",
+        awardData
+    }
+}
 
 export {
     updateUser,
     removeUser,
-    AddData
+    AddData,
+    AwardData
 }

@@ -6,10 +6,20 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { connect } from "react-redux"
+import { connect } from "react-redux";
+import { AwardData } from "../../store/action/action"
 import Swal from "sweetalert2"
+
+const arr = []
+
 function Awardmodel(props) {
     const [open, setOpen] = React.useState(false);
+    var tAmount = props.allData.data.totalAmount;
+    var percentage = tAmount * 0.05;
+    if (percentage < 500) {
+        percentage = 500
+    }
+    tAmount = parseInt(tAmount) + parseInt(percentage) + 50;
 
     function handleClickOpen() {
         setOpen(true);
@@ -24,6 +34,7 @@ function Awardmodel(props) {
         let totalAmount = document.getElementById("totalAmount").value;
         let Currency = document.getElementById("Currency").value;
         let LOA = document.getElementById("Attach-file-model").files[0];
+        let PolicyAndTerms = document.getElementById("policy").checked;
 
         if (LOA === undefined) {
             Swal.fire({
@@ -35,15 +46,31 @@ function Awardmodel(props) {
             })
             return false
         }
-        let obj = {
-            totalAmount,
-            Currency,
-            LOA
+        if (!PolicyAndTerms) {
+            Swal.fire({
+                position: 'top-end',
+                showConfirmButton: false,
+                type: 'error',
+                title: 'Oops',
+                text: 'Please Check Policy And Terms Checkbox...',
+            })
+            return false
         }
-        
+        let arr =[];
+        arr.push(LOA)
+        console.log(arr)
+        let { data } = props.allData
+        data.letter = arr
+        data.totalAmount = totalAmount;
+        data.Currency = Currency;
+        data.PolicyAndTerms = PolicyAndTerms;
+        props.AwardData(data)
         // props.getData(obj)
-        handleClose()
+        // handleClose()
     }
+    let { data } = props.allData
+    let { user } = props.allData
+
     return (
         <div>
 
@@ -58,7 +85,7 @@ function Awardmodel(props) {
                             label="Total Amount"
                             type="number"
                             fullWidth
-                            value={props.data.totalAmount}
+                            value={props.allData.data.totalAmount}
                             disabled={true}
                         />
                         <br />
@@ -68,7 +95,7 @@ function Awardmodel(props) {
                             margin="dense"
                             id="Currency"
                             label="Currency"
-                            value={props.data.Currency}
+                            value={props.allData.data.Currency}
                             disabled={true}
                             fullWidth
                         />
@@ -82,6 +109,9 @@ function Awardmodel(props) {
                             accept="application/pdf"
                             type="file"
                         />
+                        <br />
+                        <br />
+                        <input type="checkbox" name="Policy&Terms" id="policy" required /> I have read and agree to the Terms and Conditions
                     </DialogContentText>
 
                 </DialogContent>
@@ -89,9 +119,36 @@ function Awardmodel(props) {
                     <Button onClick={handleClose} color="primary">
                         Cancel
           </Button>
-                    <Button onClick={handleInput} color="primary">
-                        Submit
-          </Button>
+                    {
+                        props.allData.data.PolicyAndTerms === undefined ? <Button onClick={handleInput} color="primary">Submit</Button>
+                            : <div>
+                                <form method="POST" action="https://mywallet.bring.ae/sci/form" target="_blank">
+                                    <input type="hidden" name="merchant" value="IJ629962" />
+                                    <input type="hidden" name="order" value={data.RFQNO + ".1"} />
+                                    <input type="hidden" name="item_name" value="Here is the Total Amount After Deduction Of percentage and card charges" />
+                                    <input type="hidden" name="item_number" value="123" />
+                                    <input type="hidden" name="amount" value={tAmount} />
+                                    <input type="hidden" name="quantity" value="1" />
+                                    <input type="hidden" name="currency" value={data.Currency} />
+                                    <input type="hidden" name="first_name" value={user.fullName} />
+                                    <input type="hidden" name="last_name" value={user.fullName} />
+                                    <input type="hidden" name="email" value={user.email} />
+                                    <input type="hidden" name="phone" value={user.mobileNumber} />
+                                    <input type="hidden" name="address" value={user.country} />
+                                    <input type="hidden" name="city" value={user.state} />
+                                    <input type="hidden" name="state" value={user.state} />
+                                    <input type="hidden" name="country" value={user.country} />
+                                    <input type="hidden" name="postalcode" value="13809" />
+                                    <input type="hidden" name="custom" value="comment" />
+                                    <input type="hidden" name="notify_url" value="CALLBACKIPNURL" />
+                                    <input type="hidden" name="success_url" value="http://localhost:3000/home/payment_success" />
+                                    <input type="hidden" name="fail_link" value="http://localhost:3000/home/payment_fail" />
+                                    <Button type="submit">Pay now!</Button>
+                                </form>
+                            </div>
+                    }
+
+
                 </DialogActions>
             </Dialog>
         </div>
@@ -99,11 +156,17 @@ function Awardmodel(props) {
 }
 const mapStateToProps = (state) => {
     return ({
-        data: state.authReducers.data
+        allData: state.authReducers
     })
 }
+const mapDispatchToProps = (dispatch) => {
+    return {
+        AwardData: (awardData) => dispatch(AwardData(awardData))
+    }
 
-export default connect(mapStateToProps, null)(Awardmodel)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Awardmodel)
 
 
 

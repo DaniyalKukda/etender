@@ -9,11 +9,9 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import firebase from "../../config/firebase";
 import Modal from './awarModal';
-import Swal from "sweetalert2";
 import { AddData } from "../../store/action/action"
 import { connect } from "react-redux";
 import "./MyOpenTenderStatus.css"
-import { async } from 'q';
 
 class MyOpenTenderStatus extends Component {
     constructor() {
@@ -61,66 +59,7 @@ class MyOpenTenderStatus extends Component {
             })
         })
     }
-    getDataFromChild = (obj) => {
-        let { userId } = this.state
-        let rfq = this.props.match.params.rfq;
-        obj.RFQNO = rfq
-        obj.userId = userId
-        let storageRef = firebase.storage().ref().child(`LOA/${obj.LOA.name}`)
-        storageRef.put(obj.LOA).then((url) => {
-            url.ref.getDownloadURL().then((urlref) => {
-                obj.LOA = urlref;
-                obj.timeline = "started";
-                obj.createdAt = Date.now();
-                let Id = this.props.user.uid
-                firebase.database().ref("award/" + Id).push(obj).then((res) => {
-
-                    let getBidnow = firebase.database().ref("bidnow/");
-                    getBidnow.once("value", (va) => {
-                        let bid = va.val();
-                        for (var key in bid) {
-                            for (var key2 in bid[key]) {
-                                if (bid[key][key2].RFQNO === parseInt(rfq) && bid[key][key2].uid === userId) {
-                                    getBidnow.child(key + "/" + key2).update({ "status": "Awarded" }).then((hogya) => {
-                                        let getTender = firebase.database().ref("openTender/" + Id);
-                                        getTender.once("value", (vale) => {
-                                            let data = vale.val();
-                                            for (var key in data) {
-                                                if (data[key].RFQNO === parseInt(rfq)) {
-                                                    getTender.child(key).update({ "status": "Awarded" })
-                                                }
-                                            }
-                                        })
-                                        this.props.history.push(`/home/timeline${rfq}`)
-                                        Swal.fire({
-                                            type: 'success',
-                                            title: 'Award',
-                                            text: 'Tender is Successfully Awarded...',
-                                        })
-                                    })
-                                }
-                                else if (bid[key][key2].RFQNO === parseInt(rfq) && bid[key][key2].uid !== userId) {
-                                    console.log("Dosra if chala")
-                                    getBidnow.child(key + "/" + key2).update({ "status": "Missed" })
-                                }
-
-                            }
-                        }
-                    })
-
-
-                }).catch((err) => {
-                    console.error(err.message);
-                    console.log(err);
-                    Swal.fire({
-                        type: 'error',
-                        title: 'Oops...',
-                        text: err.message,
-                    })
-                })
-            })
-        })
-    }
+    
     checkStatus = () => {
         let rfq = this.props.match.params.rfq;
 
@@ -208,33 +147,9 @@ class MyOpenTenderStatus extends Component {
                         </div>
                     </div>
 
-                    <Modal getData={this.getDataFromChild} open={this.openModal} />
+                    <Modal open={this.openModal} />
                 </div>
-                <div>
-                    <form method="POST" action="https://mywallet.bring.ae/sci/form" target="_blank">
-                        <input type="hidden" name="merchant" value="IJ629962" />
-                        <input type="hidden" name="order" value="138543" />
-                        <input type="hidden" name="item_name" value="Testing payment" />
-                        <input type="hidden" name="item_number" value="123" />
-                        <input type="hidden" name="amount" value="125" />
-                        <input type="hidden" name="quantity" value="1" />
-                        <input type="hidden" name="currency" value="USD" />
-                        <input type="hidden" name="first_name" value="David" />
-                        <input type="hidden" name="last_name" value="Joi" />
-                        <input type="hidden" name="email" value="test@abc.com" />
-                        <input type="hidden" name="phone" value="12323456789" />
-                        <input type="hidden" name="address" value="213 Browning Lane" />
-                        <input type="hidden" name="city" value="Mount Upton" />
-                        <input type="hidden" name="state" value="New York" />
-                        <input type="hidden" name="country" value="United States" />
-                        <input type="hidden" name="postalcode" value="13809" />
-                        <input type="hidden" name="custom" value="comment" />
-                        <input type="hidden" name="notify_url" value="CALLBACKIPNURL" />
-                        <input type="hidden" name="success_url" value="https://www.facebook.com/" />
-                        <input type="hidden" name="fail_link" value="https://www.google.com/" />
-                        <button type="submit">Pay now!</button>
-                    </form>
-                </div>
+                
                 <div>
                     <Footer />
                 </div>
