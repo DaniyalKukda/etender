@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Appbar from "../AppBar/Appbar";
 import Table from '@material-ui/core/Table';
+import Button from '@material-ui/core/Button';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
@@ -121,6 +122,7 @@ class Myopentenders extends Component {
     }
     render() {
         let { data, data2 } = this.state
+        let { user } = this.props
         return (
             <div>
                 <div>
@@ -201,11 +203,10 @@ class Myopentenders extends Component {
                                             <TableCell>Amount</TableCell>
                                             <TableCell>Quotations</TableCell>
                                             <TableCell>Timeline</TableCell>
-                                            <TableCell>Awarded</TableCell>
+                                            <TableCell>Status</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-
                                         {data2 && data2.map(row => (
                                             <TableRow key={row.RFQNO}>
                                                 <TableCell component="th" scope="row">
@@ -219,7 +220,31 @@ class Myopentenders extends Component {
                                                 <TableCell><TableCell>{row.status == "Awarded" ? <button className="btn-bidnow" onClick={() => this.props.history.push(`/home/timeline${row.RFQNO}`)}>Timeline</button> : 0}</TableCell>
                                                 </TableCell>
                                                 <TableCell>
-                                                    {row.status}
+                                                    {row.status == "Awarded" ?
+                                                     <form method="POST" action="https://mywallet.bring.ae/sci/form" target="_blank">
+                                                     <input type="hidden" name="merchant" value="IJ629962" />
+                                                     <input type="hidden" name="order" value={row.RFQNO + ".2"} />
+                                                     <input type="hidden" name="item_name" value="Here is the Total Amount After Deduction Of percentage and card charges" />
+                                                     <input type="hidden" name="item_number" value="123" />
+                                                     <input type="hidden" name="amount" value={parseInt(row.totalAmount) * 0.05 < 500 ? parseInt(row.totalAmount) + 500 + 50 : (parseInt(row.totalAmount) * 0.05) + 50 } />
+                                                     <input type="hidden" name="quantity" value="1" />
+                                                     <input type="hidden" name="currency" value={row.Currency} />
+                                                     <input type="hidden" name="first_name" value={user.fullName} />
+                                                     <input type="hidden" name="last_name" value={user.fullName} />
+                                                     <input type="hidden" name="email" value={user.email} />
+                                                     <input type="hidden" name="phone" value={user.mobileNumber} />
+                                                     <input type="hidden" name="address" value={user.country} />
+                                                     <input type="hidden" name="city" value={user.state} />
+                                                     <input type="hidden" name="state" value={user.state} />
+                                                     <input type="hidden" name="country" value={user.country} />
+                                                     <input type="hidden" name="postalcode" value="13809" />
+                                                     <input type="hidden" name="custom" value="comment" />
+                                                     <input type="hidden" name="notify_url" value="CALLBACKIPNURL" />
+                                                     <input type="hidden" name="success_url" value={`http://localhost:3000/home/bid_payment_success${row.RFQNO}`} />
+                                                     <input type="hidden" name="fail_link" value="http://localhost:3000/home/payment_fail" />
+                                                     <Button className="btn-login" type="submit">Awarded</Button>
+                                                 </form>
+                                                    :row.status}
                                                 </TableCell>
                                             </TableRow>
                                         ))}

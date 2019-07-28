@@ -20,13 +20,13 @@ class ButtonAppBar extends React.Component {
 
   logout = () => {
     firebase.auth().signOut().then(() => {
-      this.props.removeUser()
+      this.props.history.push("/")
       Swal.fire({
         type: 'success',
         title: 'Logout',
         text: "Logout successfully....!",
-    })
-      this.props.history.push("/")
+      })
+      this.props.removeUser()
     }).catch((error) => {
       // An error happened.
       console.log(error)

@@ -56,11 +56,16 @@ function Awardmodel(props) {
             })
             return false
         }
-        let arr =[];
-        arr.push(LOA)
-        console.log(arr)
+        console.log(LOA)
+        let fileObj = {
+            name : LOA.name,
+            lastModified : LOA.lastModified,
+            lastModifiedDate : LOA.lastModifiedDate,
+            type : LOA.type,
+            size : LOA.size
+        }
         let { data } = props.allData
-        data.letter = arr
+        data.letter = fileObj
         data.totalAmount = totalAmount;
         data.Currency = Currency;
         data.PolicyAndTerms = PolicyAndTerms;

@@ -1,0 +1,35 @@
+.TermsAndConditionsContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /* background-color: white; */
+}
+.TermsAndConditionsheading{
+    display: flex;
+    justify-content: center;
+    font-family: "calibri";
+}
+.contentdiv{
+    width: 80%;
+}
+.ulHeading{
+    margin: 0px;
+}
+.ul , .li{
+    margin: 0px;
+    padding: 0px;
+}
+.paragraph{
+    color: #201f1a;
+    font-family: "Calibri" !important;
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 26px; 
+    text-align: justify;
+    box-sizing: border-box;
+    text-justify: inter-word; 
+}
+.listing{
+    padding: 8px;
+}

@@ -16,7 +16,8 @@ class Timeline extends React.Component {
         super();
         this.state = {
             data: [],
-            timeline: "10%"
+            timeline: "10%",
+            userId:""
         }
     }
     fetchBid = () => {
@@ -45,7 +46,7 @@ class Timeline extends React.Component {
             let progress = data.val();
             for (var key in progress) {
                 for (var key2 in progress[key]) {
-                    if (progress[key][key2].RFQNO === rfq) {
+                    if (progress[key][key2].RFQNO === parseInt(rfq)) {
                         if (value === "start") {
                             firebase.database().ref("award/").child(key + "/" + key2).update({ "timeline": "10%" })
                         } else if (value === "Material Delivered") {
@@ -59,17 +60,18 @@ class Timeline extends React.Component {
                 }
             }
         })
-
+        
     }
     fetchProgress = () => {
         let rfq = this.props.match.params.rfq;
         firebase.database().ref("award/").on("value", (data) => {
             let progress = data.val();
+            console.log(parseInt(rfq))
             for (var key in progress) {
                 for (var key2 in progress[key]) {
-                    if (progress[key][key2].RFQNO === rfq) {
+                    if (progress[key][key2].RFQNO === parseInt(rfq)) {
                         this.setState({
-                            userID: progress[key][key2].userId,
+                            userId: progress[key][key2].userId,
                             timeline: progress[key][key2].timeline
                         })
                     }
@@ -83,7 +85,7 @@ class Timeline extends React.Component {
 
     }
     render() {
-        let { data, timeline, userID } = this.state
+        let { data, timeline, userId } = this.state
         let arr = [...data]
         arr = arr.splice(0, 1)
         return (
@@ -137,7 +139,7 @@ class Timeline extends React.Component {
                         </div>
 
                     </div>
-                    {userID !== this.props.user.uid ? <div style={{ alignSelf: "flex-end", marginRight: "20%" }}>
+                    {userId !== this.props.user.uid ? <div style={{ alignSelf: "flex-end", marginRight: "20%" }}>
                         <select onChange={this.handleProgress}>
                             <option selected value="Progress">Progress</option>
                             <option value="start">Start</option>

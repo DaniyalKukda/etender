@@ -12,7 +12,11 @@ import MyOpenTenders from "./Mytenders/Mytenders";
 import MyOpenTenderStaus from "./MyOpenTendersStatus/MyOpenTenderStatus";
 import Timeline from "./Timeline/Timeline";
 import Success from "./Success_Payment/Success";
+import SuccessBid from "./Success_Payment/SuccessBid";
 import Fail from "./Fail_payment/Fail";
+import PrivacyPolicy from "./Privacy_Policy/PrivacyPolicy";
+import TermsAndConditions from "./TermsAndConditions/TermsAndConditions";
+
 
 class Routes extends Component {
     render() {
@@ -33,6 +37,9 @@ class Routes extends Component {
                     <Route path="/home/timeline:rfq" component={Timeline} />
                     <Route path="/home/payment_success" component={Success} />
                     <Route path="/home/payment_fail" component={Fail} />
+                    <Route path="/home/bid_payment_success:rfq" component={SuccessBid} />
+                    <Route path="/home/PrivacyPolicy" component={PrivacyPolicy} />
+                    <Route path="/home/TermsAndConditions" component={TermsAndConditions} />
                 </Router>
             </div>
         )
