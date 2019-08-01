@@ -16,6 +16,7 @@ import SuccessBid from "./Success_Payment/SuccessBid";
 import Fail from "./Fail_payment/Fail";
 import PrivacyPolicy from "./Privacy_Policy/PrivacyPolicy";
 import TermsAndConditions from "./TermsAndConditions/TermsAndConditions";
+import Contact from "./ContactUs/Contactus";
 
 
 class Routes extends Component {
@@ -40,6 +41,7 @@ class Routes extends Component {
                     <Route path="/home/bid_payment_success:rfq" component={SuccessBid} />
                     <Route path="/home/PrivacyPolicy" component={PrivacyPolicy} />
                     <Route path="/home/TermsAndConditions" component={TermsAndConditions} />
+                    <Route path="/home/ContactUs" component={Contact} />
                 </Router>
             </div>
         )

@@ -104,12 +104,12 @@ class Signup extends Component {
                 })
                 return false
             }
-            if (mobileNumber.length !== 11) {
-                this.setState({
-                    error: "Enter Valid Mobile Number"
-                })
-                return false
-            }
+            // if (mobileNumber.length !== 11) {
+            //     this.setState({
+            //         error: "Enter Valid Mobile Number"
+            //     })
+            //     return false
+            // }
             if (file === "") {
                 this.setState({
                     error: "select trade licence copy"

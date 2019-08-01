@@ -1,0 +1,40 @@
+.PrivacyContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.Privacyheading{
+    display: flex;
+    justify-content: center;
+    font-family: "calibri";
+}
+.contentdiv{
+    width: 80%;
+}
+.ulHeading{
+    margin: 0px;
+}
+.boldLi{
+    font-weight: 600;
+    margin-top: 10px;
+}
+.lightSpan{
+    font-weight: 400
+}
+.Li{
+    margin-top: 8px;
+}
+.paragraph{
+    color: #201f1a;
+    font-family: "Calibri" !important;
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 26px; 
+    text-align: justify;
+    box-sizing: border-box;
+    text-justify: inter-word; 
+}
+.listing{
+    padding: 8px;
+}
