@@ -102,12 +102,6 @@ class ContactUs extends Component {
             Description,
             HelpYou
         }
-        firebase.database().ref("contact/").set(obj).then(() => {
-            firebase.database().ref("contact/").on("value", (value) => {
-                const data = value.val()
-                console.log(data)
-            })
-        })
 
     }
     render() {
