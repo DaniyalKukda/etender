@@ -445,7 +445,7 @@ class Profile extends Component {
                         <br />
                         <br />
                         <Button variant="contained" onClick={this.onSubmit} className="btn-login" fullWidth={true}>
-                            Send For Approval
+                            Update Data
                         </Button>
                     </form>
                     <div style={{ display: "flex", justifyContent: "center" }}>

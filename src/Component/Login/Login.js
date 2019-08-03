@@ -47,11 +47,11 @@ class Login extends Component {
                 password
             }
             LoginUser(obj).then((data) => {
+                if(data.verification) {
+                    this.props.updateUser(data)
+                }  
                 data.verification ? 
                 data.userFlag ? this.props.history.push("/")  : this.props.history.push("/home/my_profile")
-                : this.props.history.push("/home/verification")  
-                data.verification ? 
-                data.userFlag ? this.props.updateUser(data)  : this.props.history.push("/home/my_profile")
                 : this.props.history.push("/home/verification")  
             }).catch((err)=>{
                 console.log(err.message)
