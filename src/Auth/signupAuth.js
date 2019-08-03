@@ -14,6 +14,7 @@ const CreateUser = (data, props) => {
                     let userId = firebase.auth().currentUser.uid;
                     data.uid = userId
                     data.userFlag = false
+                    data.verification = false
                     firebase.database().ref("users/" + userId).set(data).then((res) => {
                         Swal.fire({
                             type: 'success',
@@ -77,6 +78,7 @@ const updateUserData = (data, props) => {
                     let userId = props.user.uid;
                     data.uid = userId
                     data.userFlag = true
+                    data.verification = true
                     firebase.database().ref("users/" + userId).set(data).then((res) => {
                         Swal.fire({
                             type: 'success',

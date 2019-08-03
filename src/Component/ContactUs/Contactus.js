@@ -7,7 +7,8 @@ import { withStyles } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import Button from '@material-ui/core/Button';
-import firebase from "../../config/firebase";
+import * as emailjs from "emailjs-com";
+import Swal from "sweetalert2";
 
 import "./Contactus.css"
 
@@ -95,13 +96,30 @@ class ContactUs extends Component {
         this.setState({
             error: ""
         })
-        let obj = {
-            email,
-            Country,
-            phoneNumber,
-            Description,
-            HelpYou
-        }
+        var template_params = {
+            "email": email,
+            "phone_number": phoneNumber,
+            "help_you": HelpYou,
+            "Description": Description,
+            "country": Country
+         }
+         
+        var service_id = "default_service";
+        var template_id = "testing";
+        var user_id = "user_XEa25EaJJWUYF0vL3EtMT";
+        emailjs.send(service_id, template_id, template_params, user_id).then( s => {
+            Swal.fire({
+                type: 'success',
+                title: 'Sent',
+                text: "Your Feedback is send",
+            })
+        }).catch((error) => {
+            Swal.fire({
+                type: 'error',
+                title: 'Failed',
+                text: error.message,
+            })
+        })
 
     }
     render() {

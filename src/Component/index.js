@@ -17,6 +17,7 @@ import Fail from "./Fail_payment/Fail";
 import PrivacyPolicy from "./Privacy_Policy/PrivacyPolicy";
 import TermsAndConditions from "./TermsAndConditions/TermsAndConditions";
 import Contact from "./ContactUs/Contactus";
+import Verification from "./Verification/Verification";
 
 
 class Routes extends Component {
@@ -24,7 +25,7 @@ class Routes extends Component {
         //all routes created here
         return (
             <div>
-        
+
                 <Router history={history}>
                     <Route exact path="/" component={Home} />
                     <Route path="/home/login" component={Login} />
@@ -42,6 +43,7 @@ class Routes extends Component {
                     <Route path="/home/PrivacyPolicy" component={PrivacyPolicy} />
                     <Route path="/home/TermsAndConditions" component={TermsAndConditions} />
                     <Route path="/home/ContactUs" component={Contact} />
+                    <Route path="/home/verification" component={Verification} />
                 </Router>
             </div>
         )

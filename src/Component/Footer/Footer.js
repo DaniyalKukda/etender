@@ -13,7 +13,7 @@ class Footer extends Component {
             <div className="footer">
                 <div className="footer-content">
                     <div className="contact-form">
-                        <h4>Contact</h4>
+                        <h4><NavLink to="/home/ContactUs" className="links" style={{ fontSize: "18px" }} href="#">Contact Us</NavLink></h4>
                         <p style={{ margin: "0px" }}>+971 50 35 986 37</p>
                         <a style={{ padding: "0px", textDecoration: "underline", color: "#d3d3d3" }} href="#">admin@yousufgroup.com</a>
                         <p style={{ margin: "0px" }}>U.A.E.</p>
