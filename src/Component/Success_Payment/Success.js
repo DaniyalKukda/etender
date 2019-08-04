@@ -23,8 +23,7 @@ class Success extends React.Component {
             PolicyAndTerms: data.PolicyAndTerms,
             Currency: data.Currency
         }
-        console.log(data)
-        console.log(obj.LOA)
+       
         let rfq = data.RFQNO;
         obj.RFQNO = rfq
         obj.userId = data.uid
@@ -83,7 +82,6 @@ class Success extends React.Component {
         })
     }
     render() {
-        console.log(this.props.alldata.user)
         return (
             <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
                 <Card>

@@ -28,6 +28,7 @@ class Signup extends Component {
             state: "",
             expertise: "",
             error: "",
+            policyAndTerms : false,
             loading: false
         }
         this.handleChange = this.handleChange.bind(this)
@@ -41,9 +42,14 @@ class Signup extends Component {
             [e.target.name]: e.target.value
         })
     }
+    handleCheck = e => {
+        this.setState({
+            policyAndTerms : e.target.checked
+        })
+    }
     //this method in used to create a user and validate feilds
     onSubmit = () => {
-        let { fullName, email, companyName, mobileNumber, trnNo, file, tradeLN, password, confirmPassword, country, state, expertise } = this.state;
+        let { fullName, email, companyName, mobileNumber, trnNo, file, tradeLN, password, confirmPassword, country, state, expertise , policyAndTerms } = this.state;
         let obj = {
             fullName,
             email,
@@ -56,7 +62,8 @@ class Signup extends Component {
             tradeLN,
             country,
             state,
-            expertise
+            expertise,
+            policyAndTerms
         }
         this.setState({ loading: true })
         try {
@@ -104,12 +111,6 @@ class Signup extends Component {
                 })
                 return false
             }
-            // if (mobileNumber.length !== 11) {
-            //     this.setState({
-            //         error: "Enter Valid Mobile Number"
-            //     })
-            //     return false
-            // }
             if (file === "") {
                 this.setState({
                     error: "select trade licence copy"
@@ -162,6 +163,12 @@ class Signup extends Component {
             if (expertise === "") {
                 this.setState({
                     error: "Please Select your Expertise...."
+                })
+                return false
+            }
+            if (policyAndTerms === false) {
+                this.setState({
+                    error: "Please check the terms and Policy"
                 })
                 return false
             }
@@ -350,6 +357,9 @@ class Signup extends Component {
                                 {this.state.expertizeArray.map((e) => <option value={e}>{e}</option>)}
                             </Select>
                         </FormControl>
+                        <br />
+                        <br />
+                        <input type="checkbox" name="Policy&Terms" id="policy" required onChange={this.handleCheck} /> I have read and agree to the Terms and Conditions of E-Tender
                         <br />
                         <br />
 

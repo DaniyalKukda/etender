@@ -16,6 +16,7 @@ const CreateUser = (data, props) => {
                     data.uid = userId
                     data.userFlag = false
                     data.verification = false
+                    data.paymentFlag = true
                     firebase.database().ref("users/" + userId).set(data).then((res) => {
                         let template_params = {
                             "name": data.fullName,
@@ -101,6 +102,7 @@ const updateUserData = (data, props) => {
             data.uid = userId
             data.userFlag = true
             data.verification = true
+            data.paymentFlag = true
             firebase.database().ref("users/" + userId).set(data).then((res) => {
                 Swal.fire({
                     type: 'success',
