@@ -6,7 +6,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { NavLink } from "react-router-dom";
-import { CreateUser } from "../../Auth/signupAuth"
+import { CreateUser } from "../../Auth/signupAuth";
+import { connect } from "react-redux"
 import "./signup.css"
 
 class Signup extends Component {
@@ -28,7 +29,7 @@ class Signup extends Component {
             state: "",
             expertise: "",
             error: "",
-            policyAndTerms : false,
+            policyAndTerms: false,
             loading: false
         }
         this.handleChange = this.handleChange.bind(this)
@@ -44,12 +45,12 @@ class Signup extends Component {
     }
     handleCheck = e => {
         this.setState({
-            policyAndTerms : e.target.checked
+            policyAndTerms: e.target.checked
         })
     }
     //this method in used to create a user and validate feilds
     onSubmit = () => {
-        let { fullName, email, companyName, mobileNumber, trnNo, file, tradeLN, password, confirmPassword, country, state, expertise , policyAndTerms } = this.state;
+        let { fullName, email, companyName, mobileNumber, trnNo, file, tradeLN, password, confirmPassword, country, state, expertise, policyAndTerms } = this.state;
         let obj = {
             fullName,
             email,
@@ -179,6 +180,12 @@ class Signup extends Component {
             setTimeout(() => {
                 this.setState({ loading: false })
             }, 5000)
+        }
+    }
+    componentDidMount() {
+        let user = this.props.user
+        if (user) {
+            this.props.history.push('/')
         }
     }
     render() {
@@ -376,4 +383,9 @@ class Signup extends Component {
         )
     }
 }
-export default Signup
+const mapStateToProps = (state) => {
+    return ({
+        user: state.authReducers.user
+    })
+}
+export default connect(mapStateToProps)(Signup)

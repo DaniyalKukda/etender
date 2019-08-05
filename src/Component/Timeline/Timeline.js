@@ -80,6 +80,10 @@ class Timeline extends React.Component {
         })
     }
     componentDidMount() {
+        let user = this.props.user
+        if (!user) {
+            this.props.history.push("/")
+        }
         this.fetchBid()
         this.fetchProgress()
 

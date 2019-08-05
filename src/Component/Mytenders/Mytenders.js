@@ -123,7 +123,7 @@ class Myopentenders extends Component {
             for (var key in data) {
                 for (var key2 in data[key]) {
                     if (uid === data[key][key2].userId && data[key][key2].RFQNO === parseInt(rfq)) {
-                        window.open(data[key][key2].LOA)                        
+                        window.open(data[key][key2].LOA)
                     }
                 }
             }
@@ -132,7 +132,6 @@ class Myopentenders extends Component {
     componentDidMount() {
         this.fetchTenders()
         this.fetchBids()
-        // this.awardProjectData()
     }
     render() {
         let { data, data2 } = this.state

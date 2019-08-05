@@ -66,6 +66,12 @@ class Login extends Component {
             },5000)
         }
     }
+    componentDidMount() {
+        let user = this.props.user
+        if(user){
+            this.props.history.push('/')
+        }
+    }
     render() {
         return (
             <div className="LoginContainer">
@@ -117,13 +123,15 @@ class Login extends Component {
         )
     }
 }
-
+const mapStateToProps = (state) => {
+    return ({
+        user: state.authReducers.user
+    })
+}
 const mapDispatchToProps = (dispatch) => {
     return {
         updateUser : (user) => dispatch(updateUser(user))
     }
 
 }
-
-
-export default connect(null,mapDispatchToProps)(Login)
+export default connect(mapStateToProps,mapDispatchToProps)(Login)

@@ -39,6 +39,10 @@ class Bidnow extends React.Component {
     }
     componentDidMount() {
         this.fetchData()
+        let user = this.props.user
+        if (!user) {
+            this.props.history.push("/")
+        }
     }
     openModal = (open) => {
         this.setState({

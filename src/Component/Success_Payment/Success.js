@@ -81,6 +81,12 @@ class Success extends React.Component {
             })
         })
     }
+    componentDidMount(){
+        let user = this.props.alldata.user
+        if (!user) {
+            this.props.history.push("/")
+        }
+    }
     render() {
         return (
             <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>

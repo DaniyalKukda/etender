@@ -76,6 +76,10 @@ class MyOpenTenderStatus extends Component {
         })
     }
     componentDidMount() {
+        let user = this.props.user
+        if (!user) {
+            this.props.history.push("/")
+        }
         this.fetchBid()
         this.checkStatus()
     }
