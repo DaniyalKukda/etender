@@ -27,4 +27,22 @@ const LoginUser = (data, props) => {
 
 }
 
-export default LoginUser
+const forgotPassword = (email) => {
+    return new Promise((resolve,reject) => {
+        firebase.auth().sendPasswordResetEmail(email).then(() => {
+            Swal.fire({
+                type: 'success',
+                title: 'Email is Sent',
+                text: email,
+            })
+        }).catch((err) => {
+            Swal.fire({
+                type: 'error',
+                title: 'Oops...',
+                text: err.message,
+            })
+        })
+    })
+}
+
+export {LoginUser , forgotPassword}

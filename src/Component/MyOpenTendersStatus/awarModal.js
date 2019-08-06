@@ -87,7 +87,7 @@ function awardProject (props) {
 }
 function Awardmodel(props) {
     const [open, setOpen] = React.useState(false);
-    var tAmount = props.allData.data.totalAmount;
+    var tAmount = props.allData.data ? props.allData.data.totalAmount : null;
     var percentage = tAmount * 0.05;
     if (percentage < 500) {
         percentage = 500
@@ -163,7 +163,7 @@ function Awardmodel(props) {
                             label="Total Amount"
                             type="number"
                             fullWidth
-                            value={props.allData.data.totalAmount}
+                            value={props.allData.data ? props.allData.data.totalAmount : null}
                             disabled={true}
                         />
                         <br />
@@ -173,7 +173,7 @@ function Awardmodel(props) {
                             margin="dense"
                             id="Currency"
                             label="Currency"
-                            value={props.allData.data.Currency}
+                            value={props.allData.data ? props.allData.data.Currency : null}
                             disabled={true}
                             fullWidth
                         />
@@ -199,7 +199,9 @@ function Awardmodel(props) {
           </Button>
                     {
                         props.allData.user.paymentFlag ?
-                            props.allData.data.PolicyAndTerms === undefined ? <Button onClick={handleInput} color="primary">Submit</Button>
+                        props.allData.data ?
+                        props.allData.data.PolicyAndTerms === undefined ?
+                        <Button onClick={handleInput} color="primary">Submit</Button>
                                 : <div>
                                     <form method="POST" action="https://mywallet.bring.ae/sci/form" target="_blank">
                                         <input type="hidden" name="merchant" value="IJ629962" />
@@ -225,8 +227,9 @@ function Awardmodel(props) {
                                         <Button type="submit">Pay now!</Button>
                                     </form>
                                 </div>
-                            : props.allData.data.PolicyAndTerms === undefined ? <Button onClick={handleInput} color="primary">Submit</Button>
-                                : <Button onClick={() => awardProject(props)} className="btn-login" size="medium">Award</Button>
+                            : props.allData.data && props.allData.data.PolicyAndTerms === undefined ? <Button onClick={handleInput} color="primary">Submit</Button>
+                            : null   
+                            : <Button onClick={() => awardProject(props)} className="btn-login" size="medium">Award</Button>
 
                     }
 

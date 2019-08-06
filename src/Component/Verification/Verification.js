@@ -16,10 +16,10 @@ function Verification() {
                         Verification
         </Typography>
                     <Typography variant="h5" component="h2">
-                        Please wait your Account is Not Verified
+                        Please wait for your account verification.
         </Typography>
                     <Typography variant="body2" component="p">
-                        First Admin Can verify your Account And Then Login
+                        We will send you an email shortly
         </Typography>
                 </CardContent>
             </Card>

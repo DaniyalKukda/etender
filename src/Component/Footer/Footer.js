@@ -14,16 +14,16 @@ class Footer extends Component {
                 <div className="footer-content">
                     <div className="contact-form">
                         <h4><NavLink to="/home/ContactUs" className="links" style={{ fontSize: "18px" }} href="#">Contact Us</NavLink></h4>
-                        <p style={{ margin: "0px" }}>+971 50 35 986 37</p>
+                        {/* <p style={{ margin: "0px" }}>+971 50 35 986 37</p>
                         <a style={{ padding: "0px", textDecoration: "underline", color: "#d3d3d3" }} href="#">admin@yousufgroup.com</a>
-                        <p style={{ margin: "0px" }}>U.A.E.</p>
+                        <p style={{ margin: "0px" }}>U.A.E.</p> */}
                     </div>
                     <div className="footer-section">
                         <div>
                             <p className="listheading">Discover</p>
                             <ul className="list">
-                                <li><a className="links" href="#">Open Tender!</a></li>
-                                <li><a className="links" href="#">Bid Now!</a></li>
+                                <li><NavLink to="/home/open_tender" className="links" >Open Tender!</NavLink></li>
+                                <li><NavLink className="links" to="/home/bid_now">Bid Now!</NavLink></li>
                                 <li><a className="links" href="#">How Its Work?</a></li>
                             </ul>
                         </div>
@@ -38,10 +38,10 @@ class Footer extends Component {
                 </div>
                 <div className="footer-bottom">
                     <div className="social">
-                        <a className="links" href="#" style={{ borderRadius: "50px" }}><Fbicon /></a>
-                        <a className="links" href="#" style={{ borderRadius: "50px" }}><Twicon /> </a>
-                        <a className="links" href="#" style={{ borderRadius: "50px" }}><Inicon /></a>
-                        <a className="links" href="#" style={{ borderRadius: "50px" }}><Linicon /> </a>
+                        <a className="links" href="https://www.facebook.com/" target="blank" style={{ borderRadius: "50px" }}><Fbicon /></a>
+                        <a className="links" target="blank" href="https://twitter.com/login?lang=en" style={{ borderRadius: "50px" }}><Twicon /> </a>
+                        <a className="links" target="blank" href="https://www.instagram.com/?hl=en" style={{ borderRadius: "50px" }}><Inicon /></a>
+                        <a className="links" target="blank" href="https://pk.linkedin.com/" style={{ borderRadius: "50px" }}><Linicon /> </a>
                     </div>
                     <div className="tp">
                         <div className="tplinks">

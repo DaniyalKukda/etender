@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { NavLink } from "react-router-dom";
-import LoginUser from "../../Auth/loginAuth";
+import { forgotPassword, LoginUser } from "../../Auth/loginAuth";
 import { connect } from "react-redux";
 import { updateUser } from '../../store/action/action';
 import "./Login.css"
@@ -14,7 +14,8 @@ class Login extends Component {
             email: "",
             password: "",
             error: "",
-            loading: false
+            loading: false,
+            resetPass: false
         }
     }
     handleChange = (e) => {
@@ -47,37 +48,57 @@ class Login extends Component {
                 password
             }
             LoginUser(obj).then((data) => {
-                if(data.verification) {
+                if (data.verification) {
                     this.props.updateUser(data)
-                }  
-                data.verification ? 
-                data.userFlag ? this.props.history.push("/")  : this.props.history.push("/home/my_profile")
-                : this.props.history.push("/home/verification")  
-            }).catch((err)=>{
+                }
+                data.verification ?
+                    data.userFlag ? this.props.history.push("/") : this.props.history.push("/home/my_profile")
+                    : this.props.history.push("/home/verification")
+            }).catch((err) => {
                 console.log(err.message)
             })
-        }catch(err){
+        } catch (err) {
             alert(err.message)
-        }finally{
-            setTimeout(()=>{
+        } finally {
+            setTimeout(() => {
                 this.setState({
-                    loading:false
+                    loading: false
                 })
-            },5000)
+            }, 5000)
         }
+    }
+    resetPassword = () => {
+        this.setState({
+            resetPass: true
+        })
+    }
+    resetEmail = () => {
+        let { email } = this.state
+        if (email === "") {
+            this.setState({
+                error: "Please enter email address...."
+            })
+            return false
+        }
+        forgotPassword(email).then(() => {
+            this.setState({
+                resetPass:false
+            })
+        })
     }
     componentDidMount() {
         let user = this.props.user
-        if(user){
+        if (user) {
             this.props.history.push('/')
         }
     }
     render() {
+        let { resetPass } = this.state
         return (
             <div className="LoginContainer">
                 <div className="loginForm">
                     <div className="dha-div">
-                        <p className="headingSignIn">Sign in with E-TENDER</p>
+                        {resetPass ? <p className="headingSignIn">Enter Email for Reset Password</p> : <p className="headingSignIn">Sign in with E-TENDER</p>}
                         <p className="error">{this.state.error}</p>
                     </div>
                     <form>
@@ -94,28 +115,36 @@ class Login extends Component {
                             margin="normal"
                             variant="outlined"
                         />
-                        <TextField
-                            required
-                            id="outlined-password-input"
-                            label="Password"
-                            // className={classes.textField}
-                            fullWidth={true}
-                            type="password"
-                            name="password"
-                            onChange={this.handleChange}
-                            autoComplete="current-password"
-                            margin="normal"
-                            variant="outlined"
-                        />
+                        {
+                            !resetPass ?
+                                <TextField
+                                    required
+                                    id="outlined-password-input"
+                                    label="Password"
+                                    // className={classes.textField}
+                                    fullWidth={true}
+                                    type="password"
+                                    name="password"
+                                    onChange={this.handleChange}
+                                    autoComplete="current-password"
+                                    margin="normal"
+                                    variant="outlined"
+                                />
+                                : null
+                        }
                         <br />
                         <br />
-                        <Button variant="contained" onClick={this.submit} className="btn-login" fullWidth={true}>
-                            Login
+                        {
+                            !resetPass ? <Button variant="contained" onClick={this.submit} className="btn-login" fullWidth={true}>
+                                Login
+                        </Button> : <Button variant="contained" onClick={this.resetEmail} className="btn-login" fullWidth={true}>
+                                    Send email
                         </Button>
+                        }
                     </form>
                     <div className="dha-div">
                         <p>Dont't have an account? <NavLink className="navlink" to="/home/signup"><span style={{ fontWeight: 550, fontSize: 17, cursor: "pointer" }}>Signup</span></NavLink></p>
-                        <p className="fg-password">forgot password ?</p>
+                        {resetPass ? <p className="fg-password" onClick={() => this.setState({ resetPass: false , error:"" })}>Go Back</p> : <p className="fg-password" onClick={this.resetPassword}>forgot password ?</p>}
                         {this.state.loading && <img src={require("../../assets/Images/loading.gif")} height="70px" width="70px" />}
                     </div>
                 </div>
@@ -130,8 +159,8 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-        updateUser : (user) => dispatch(updateUser(user))
+        updateUser: (user) => dispatch(updateUser(user))
     }
 
 }
-export default connect(mapStateToProps,mapDispatchToProps)(Login)
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

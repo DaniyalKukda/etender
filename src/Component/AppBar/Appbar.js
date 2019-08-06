@@ -39,7 +39,7 @@ class ButtonAppBar extends React.Component {
         <AppBar position="static">
           <Toolbar>
             <Typography onClick={() => this.props.history.push("/")} className="Logo" variant="h6" style={{ flexGrow: 1 , cursor:"pointer" }}>
-              E-TENDER
+              <img src={require("../../assets/Images/logo.jpeg")} style={{height:"50px" , paddingTop:"8px"}} />
             </Typography>
             <NavLink className="navlink" to="/home/bids" ><Button color="inherit">Bids&nbsp;<Bidicon /></Button></NavLink>
             {this.props.user !== null && <NavLink className="navlink" to="/home/my_tenders" ><Button color="inherit">My Profile&nbsp;<User /></Button></NavLink>}
