@@ -37,8 +37,22 @@ class Bidnow extends React.Component {
             })
         })
     }
+    fetchBids = () => {
+        let uid = this.props.user.uid;
+        firebase.database().ref("bidnow/" + uid).on("value", (value) => {
+            let arr = value.val();
+            let data2 = [];
+            for (var key in arr) {
+                data2.push({RFQNO : arr[key].RFQNO})
+            }
+            this.setState({
+                data2,
+            })
+        })
+    }
     componentDidMount() {
         this.fetchData()
+        this.fetchBids()
         let user = this.props.user
         if (!user) {
             this.props.history.push("/")
@@ -50,10 +64,25 @@ class Bidnow extends React.Component {
         })
     }
     HandleModelData = (para) => {
-        this.state.open()
-        this.setState({
-            para
+        let { data2 } = this.state
+        var flag;
+        data2.map((rfq) => {
+            if(rfq.RFQNO === para.RFQNO){
+                flag = rfq.RFQNO;
+            }
         })
+        if(flag === para.RFQNO){
+            Swal.fire({
+                type: 'warning',
+                title: 'Bid!',
+                text: 'Your Bid is Already Submitted.!',
+            })
+        }else{
+            this.state.open()
+            this.setState({
+                para
+            })
+        }
     }
     shouldComponentUpdate() {
         if (this.state.open) {
@@ -109,43 +138,39 @@ class Bidnow extends React.Component {
                             <Table>
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell align="right">RFQ No</TableCell>
-                                        <TableCell align="right">Tender Name</TableCell>
-                                        <TableCell align="right">Description</TableCell>
-                                        <TableCell align="right">Building Type</TableCell>
-                                        <TableCell align="right">State</TableCell>
-                                        <TableCell align="right">Location</TableCell>
-                                        <TableCell align="right">Closing Date</TableCell>
-                                        <TableCell align="right">Attachments</TableCell>
-                                        {/* <TableCell align="right">Timeline</TableCell> */}
-                                        {/* <TableCell align="right">Status</TableCell> */}
-                                        <TableCell align="right">Actions</TableCell>
+                                        <TableCell className="tableRowAdjustment" align="right">RFQ No</TableCell>
+                                        <TableCell className="tableRowAdjustment" align="right">Tender Name</TableCell>
+                                        <TableCell className="tableRowAdjustment" align="right">Description</TableCell>
+                                        <TableCell className="tableRowAdjustment" align="right">Building Type</TableCell>
+                                        <TableCell className="tableRowAdjustment" align="right">State</TableCell>
+                                        <TableCell className="tableRowAdjustment" align="right">Location</TableCell>
+                                        <TableCell className="tableRowAdjustment" align="right">Closing Date</TableCell>
+                                        <TableCell className="tableRowAdjustment" align="right">Attachments</TableCell>
+                                        <TableCell className="tableRowAdjustment" align="right">Actions</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
 
                                     {data && data.map(row => (
                                         <TableRow key={row.RFQNO}>
-                                            <TableCell component="th" scope="row">
+                                            <TableCell className="tableRowAdjustment" component="th" scope="row">
                                                 {row.RFQNO}
                                             </TableCell>
-                                            <TableCell align="right" >{row.tenderName}</TableCell>
-                                            <TableCell align="right" >{row.Description}</TableCell>
-                                            <TableCell align="right" >{row.buildingType}</TableCell>
-                                            <TableCell align="right" >{row.location}</TableCell>
-                                            <TableCell align="right" >{row.state}</TableCell>
-                                            <TableCell align="right" >{row.closingDate}</TableCell>
-                                            <TableCell align="right" ><ul style={{ margin: 0, padding: 0, listStyleType: "none" }}>
-                                                <li><a href={row.engineeringdrawingsURL} target="blank">Engineering Drawing</a></li>
-                                                <li><a href={row.buildingPermitURL} target="blank">Building Permit</a></li>
-                                                <li><a href={row.materialAndSpecificationURL} target="blank">Material&Specification</a></li>
-                                                <li><a href={row.siteplanURL} target="blank">Site Plan</a></li>
-                                                {row.otherURL !== "" ? <li><a href={row.otherURL} target="blank">Other</a></li> : null}
-
+                                            <TableCell className="tableRowAdjustment" align="right" >{row.tenderName}</TableCell>
+                                            <TableCell className="tableRowAdjustment" align="right" >{row.Description}</TableCell>
+                                            <TableCell className="tableRowAdjustment" align="right" >{row.buildingType}</TableCell>
+                                            <TableCell className="tableRowAdjustment" align="right" >{row.location}</TableCell>
+                                            <TableCell className="tableRowAdjustment" align="right" >{row.state}</TableCell>
+                                            <TableCell className="tableRowAdjustment" align="right" >{row.closingDate}</TableCell>
+                                            <TableCell className="tableRowAdjustment" align="right" ><ul style={{ margin: 0, padding: 0, listStyleType: "none" }}>
+                                                <li><a href={row.engineeringdrawings} target="blank">Engineering Drawing</a></li>
+                                                <li><a href={row.buildingPermit} target="blank">Building Permit</a></li>
+                                                <li><a href={row.materialAndSpecification} target="blank">Material&Specification</a></li>
+                                                <li><a href={row.siteplan} target="blank">Site Plan</a></li>
                                             </ul></TableCell>
                                             {/* <TableCell align="right">{row}</TableCell> */}
                                             {/* <TableCell align="right">{row.status}</TableCell> */}
-                                            <TableCell align="right"><button onClick={() => this.HandleModelData(row)} className="btn-bidnow">Bid Now</button></TableCell>
+                                            <TableCell className="tableRowAdjustment" align="right"><button onClick={() => this.HandleModelData(row)} className="btn-bidnow">Bid Now</button></TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>

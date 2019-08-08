@@ -33,7 +33,7 @@ class Home extends Component {
                             <p style={{ fontSize: "20px", fontWeight: "600" }}>Simplify & improve the tender process for engineering.</p>
                         </div>
                     </div>
-                    <div className="ourStory-Container">
+                    <div className="ourStory-Container" id="ourstory">
                         <div className="HeadingDiv">
                             <h1 className="headingOurstory">Our Story</h1>
                             <p className="Ourstory-paragraph">E-Tender is an On-Demand Tender Marketplace for Middle-East & Africa.</p>

@@ -1,14 +1,14 @@
 import firebase from 'firebase';
 //firebase initialization
 var firebaseConfig = {
-    apiKey: "AIzaSyC3U63LlIL-p5sQPk124Tlxp_heI-96kvU",
-    authDomain: "e-tender-1997.firebaseapp.com",
-    databaseURL: "https://e-tender-1997.firebaseio.com",
-    projectId: "e-tender-1997",
-    storageBucket: "e-tender-1997.appspot.com",
-    messagingSenderId: "774076261049",
-    appId: "1:774076261049:web:66439f9c05f78b51"
-};
+    apiKey: "AIzaSyDh-1JxMCQkhPXoeJImsTZfYpdKLHD_0qk",
+    authDomain: "etender-b9ca1.firebaseapp.com",
+    databaseURL: "https://etender-b9ca1.firebaseio.com",
+    projectId: "etender-b9ca1",
+    storageBucket: "etender-b9ca1.appspot.com",
+    messagingSenderId: "318273515941",
+    appId: "1:318273515941:web:6a24bb62335d795c"
+  };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 export default firebase

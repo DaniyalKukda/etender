@@ -176,12 +176,10 @@ class Myopentenders extends Component {
                                                 <TableCell>{row.state}</TableCell>
                                                 <TableCell>{row.closingDate}</TableCell>
                                                 <TableCell><ul style={{ margin: 0, padding: 0, listStyleType: "none" }}>
-                                                    <li><a href={row.engineeringdrawingsURL} target="blank">Engineering Drawing</a></li>
-                                                    <li><a href={row.buildingPermitURL} target="blank">Building Permit</a></li>
-                                                    <li><a href={row.materialAndSpecificationURL} target="blank">Material&Specification</a></li>
-                                                    <li><a href={row.siteplanURL} target="blank">Site Plan</a></li>
-                                                    {row.otherURL !== "" ? <li><a href={row.otherURL} target="blank">Other</a></li> : null}
-
+                                                    <li><a href={row.engineeringdrawings} target="blank">Engineering Drawing</a></li>
+                                                    <li><a href={row.buildingPermit} target="blank">Building Permit</a></li>
+                                                    <li><a href={row.materialAndSpecification} target="blank">Material&Specification</a></li>
+                                                    <li><a href={row.siteplan} target="blank">Site Plan</a></li>
                                                 </ul></TableCell>
                                                 <TableCell>{row.status == "Awarded" ? <button className="btn-bidnow" onClick={() => this.props.history.push(`/home/timeline${row.RFQNO}`)}>Timeline</button> : 0}</TableCell>
                                                 <TableCell>

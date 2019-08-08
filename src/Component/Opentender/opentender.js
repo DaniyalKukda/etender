@@ -10,7 +10,7 @@ import FilledInput from '@material-ui/core/FilledInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-
+import saveData from "./method"
 import "./opentender.css"
 
 class Opentender extends Component {
@@ -31,12 +31,7 @@ class Opentender extends Component {
             plotno: "",
             location: "",
             selectedDate: "",
-            engineeringdrawingsURL: "",
-            siteplanURL: "",
-            buildingPermitURL: "",
-            materialAndSpecificationURL: "",
             other: 0,
-            otherURL: "",
             engineeringdrawings: "",
             siteplan: "",
             buildingPermit: "",
@@ -46,57 +41,26 @@ class Opentender extends Component {
         }
     }
 
-    saveData = (obj) => {
-        let { engineeringdrawingsURL, buildingPermitURL, siteplanURL, materialAndSpecificationURL } = this.state;
-        if (engineeringdrawingsURL !== "", siteplanURL !== "", buildingPermitURL !== "", materialAndSpecificationURL !== "") {
-            this.setState({
-                loading: true
-            })
-            setTimeout(() => {
-                firebase.database().ref("openTender/" + this.props.user.uid).push(obj).then((success) => {
-                    this.setState({
-                        loading: false,
-                        engineeringdrawings:"",
-                        siteplan:"",
-                        buildingPermit:"",
-                        materialAndSpecification:"",
-                        materialAndSpecification:"",
-                        tenderName:"",
-                        Description:"",
-                        plotno:"",
-                        location:"",
-                        state:"",
-                        buildingType:"",
-                        selectedDate:""
-                    })
-                    Swal.fire({
-                        type: 'success',
-                        title: 'Open Tender',
-                        text: 'Tender is Successfully Posted...',
-                    })
-                    
-                }).catch((err) => {
-                    console.error(err.message);
-                    console.log(err);
-                    Swal.fire({
-                        type: 'error',
-                        title: 'Oops...',
-                        text: err.message,
-                    })
-                })
-            }, 10000)
-        } else {
-            alert("please wait files is uploading")
-            setTimeout(() => {
-                Swal.fire({
-                    type: 'success',
-                    title: 'Ready....!',
-                    text: "File is Uploaded now submit tender",
-                }) 
-            }, 30000);
-        }
-}
-    
+    // saveData = (obj) => {
+    //     firebase.database().ref("openTender/" + this.props.user.uid).push(obj).then((success) => {
+
+    //         Swal.fire({
+    //             type: 'success',
+    //             title: 'Open Tender',
+    //             text: 'Tender is Successfully Posted...',
+    //         })
+
+    //     }).catch((err) => {
+    //         console.error(err.message);
+    //         console.log(err);
+    //         Swal.fire({
+    //             type: 'error',
+    //             title: 'Oops...',
+    //             text: err.message,
+    //         })
+    //     })
+    // }
+
     handleChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
@@ -108,8 +72,8 @@ class Opentender extends Component {
         })
     }
     handleSubmit = async () => {
-        let { engineeringdrawings, siteplan, buildingPermit, materialAndSpecification, RFQNO, companyName, expertise, tenderName, Description, plotno, state, location, buildingType, selectedDate, engineeringdrawingsURL, siteplanURL, buildingPermitURL, otherURL, materialAndSpecificationURL } = this.state;
-        console.log("object")
+        let { engineeringdrawings, siteplan, buildingPermit, materialAndSpecification, RFQNO, companyName, expertise, tenderName, Description, plotno, state, location, buildingType, selectedDate } = this.state;
+        
         if (tenderName === "") {
             this.setState({
                 error: "Please Select Tender Name"
@@ -189,6 +153,9 @@ class Opentender extends Component {
             })
             return false
         }
+        this.setState({
+            loading:true
+        })
         let obj = {
             RFQNO,
             companyName,
@@ -200,15 +167,31 @@ class Opentender extends Component {
             location,
             buildingType,
             closingDate: selectedDate,
-            engineeringdrawingsURL,
-            siteplanURL,
-            buildingPermitURL,
-            materialAndSpecificationURL,
-            otherURL,
+            engineeringdrawings,
+            siteplan,
+            buildingPermit,
+            materialAndSpecification,
             uid: this.props.user.uid,
-            status:"unassigned"
+            status: "unassigned"
         }
-        this.saveData(obj)
+        saveData(obj).then((data)=>{
+            console.log(data)
+            this.setState({
+                loading: false,
+                engineeringdrawings:"",
+                siteplan:"",
+                buildingPermit:"",
+                materialAndSpecification:"",
+                materialAndSpecification:"",
+                tenderName:"",
+                Description:"",
+                plotno:"",
+                location:"",
+                state:"",
+                buildingType:"",
+                selectedDate:""
+            })
+        })
     }
     render() {
         let { engineeringdrawings, siteplan, buildingPermit, materialAndSpecification, RFQNO, companyName, expertise, tenderName, Description, plotno, state, location, buildingType, selectedDate, engineeringdrawingsURL, siteplanURL, buildingPermitURL, otherURL, materialAndSpecificationURL, error } = this.state
@@ -368,31 +351,6 @@ class Opentender extends Component {
                                             this.setState({
                                                 engineeringdrawings: img
                                             })
-
-                                            let storageRef = firebase.storage().ref().child(`opentenderPDF/${img.name}`)
-                                            storageRef.put(img).then((url) => {
-                                                url.ref.getDownloadURL().then((urlref) => {
-                                                    this.setState({
-                                                        engineeringdrawingsURL: urlref,
-                                                    })
-                                                }).catch((err) => {
-                                                    console.error(err.message);
-                                                    console.log(err);
-                                                    Swal.fire({
-                                                        type: 'error',
-                                                        title: 'Oops...',
-                                                        text: err.message,
-                                                    })
-                                                })
-                                            }).catch((err) => {
-                                                console.error(err.message);
-                                                console.log(err);
-                                                Swal.fire({
-                                                    type: 'error',
-                                                    title: 'Oops...',
-                                                    text: err.message,
-                                                })
-                                            })
                                         }}
                                     />
                                     <br />
@@ -406,31 +364,6 @@ class Opentender extends Component {
                                             let img = document.getElementById("siteplan").files[0]
                                             this.setState({
                                                 siteplan: img,
-                                            })
-
-                                            let storageRef = firebase.storage().ref().child(`opentenderPDF/${img.name}`)
-                                            storageRef.put(img).then((url) => {
-                                                url.ref.getDownloadURL().then((urlref) => {
-                                                    this.setState({
-                                                        siteplanURL: urlref,
-                                                    })
-                                                }).catch((err) => {
-                                                    console.error(err.message);
-                                                    console.log(err);
-                                                    Swal.fire({
-                                                        type: 'error',
-                                                        title: 'Oops...',
-                                                        text: err.message,
-                                                    })
-                                                })
-                                            }).catch((err) => {
-                                                console.error(err.message);
-                                                console.log(err);
-                                                Swal.fire({
-                                                    type: 'error',
-                                                    title: 'Oops...',
-                                                    text: err.message,
-                                                })
                                             })
                                         }}
                                         name="siteplanURL"
@@ -447,30 +380,6 @@ class Opentender extends Component {
                                             this.setState({
                                                 buildingPermit: img,
                                             })
-                                            let storageRef = firebase.storage().ref().child(`opentenderPDF/${img.name}`)
-                                            storageRef.put(img).then((url) => {
-                                                url.ref.getDownloadURL().then((urlref) => {
-                                                    this.setState({
-                                                        buildingPermitURL: urlref,
-                                                    })
-                                                }).catch((err) => {
-                                                    console.error(err.message);
-                                                    console.log(err);
-                                                    Swal.fire({
-                                                        type: 'error',
-                                                        title: 'Oops...',
-                                                        text: err.message,
-                                                    })
-                                                })
-                                            }).catch((err) => {
-                                                console.error(err.message);
-                                                console.log(err);
-                                                Swal.fire({
-                                                    type: 'error',
-                                                    title: 'Oops...',
-                                                    text: err.message,
-                                                })
-                                            })
                                         }}
                                         name="builfingPermitURL"
                                     />
@@ -486,68 +395,8 @@ class Opentender extends Component {
                                             this.setState({
                                                 materialAndSpecification: img,
                                             })
-                                            let storageRef = firebase.storage().ref().child(`opentenderPDF/${img.name}`)
-                                            storageRef.put(img).then((url) => {
-                                                url.ref.getDownloadURL().then((urlref) => {
-                                                    this.setState({
-                                                        materialAndSpecificationURL: urlref,
-                                                    })
-                                                }).catch((err) => {
-                                                    console.error(err.message);
-                                                    console.log(err);
-                                                    Swal.fire({
-                                                        type: 'error',
-                                                        title: 'Oops...',
-                                                        text: err.message,
-                                                    })
-                                                })
-                                            }).catch((err) => {
-                                                console.error(err.message);
-                                                console.log(err);
-                                                Swal.fire({
-                                                    type: 'error',
-                                                    title: 'Oops...',
-                                                    text: err.message,
-                                                })
-                                            })
                                         }}
                                         name="materialAndSpecificationURL"
-                                    />
-                                    <br />
-                                    <label className="labelfile">Other <span>(Optional)</span></label><br />
-                                    <input
-                                        required
-                                        id="other"
-                                        type="file"
-                                        accept="application/pdf"
-                                        onChange={() => {
-                                            let img = document.getElementById("other").files[0]
-                                            let storageRef = firebase.storage().ref().child(`opentenderPDF/${img.name}`)
-                                            storageRef.put(img).then((url) => {
-                                                url.ref.getDownloadURL().then((urlref) => {
-                                                    this.setState({
-                                                        otherURL: urlref
-                                                    })
-                                                }).catch((err) => {
-                                                    console.error(err.message);
-                                                    console.log(err);
-                                                    Swal.fire({
-                                                        type: 'error',
-                                                        title: 'Oops...',
-                                                        text: err.message,
-                                                    })
-                                                })
-                                            }).catch((err) => {
-                                                console.error(err.message);
-                                                console.log(err);
-                                                Swal.fire({
-                                                    type: 'error',
-                                                    title: 'Oops...',
-                                                    text: err.message,
-                                                })
-                                            })
-                                        }}
-                                        name="other"
                                     />
                                     <br />
                                     <br />

@@ -30,5 +30,9 @@
 .tablecontainer{
     width: 98%;
     background-color: white;
-    overflow-x: auto;
 }
+@media (max-width : 1040px){
+    .tableRowAdjustment{
+        padding: 14px 0px 14px 5px !important;
+    }
+  }

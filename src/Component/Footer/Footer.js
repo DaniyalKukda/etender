@@ -31,7 +31,7 @@ class Footer extends Component {
                             <p className="listheading">Understand</p>
                             <ul className="list">
                                 <li><a className="links" href="#">Carrers</a></li>
-                                <li><a className="links" href="#">Our Story</a></li>
+                                <li><a className="links" href="#ourstory">Our Story</a></li>
                             </ul>
                         </div>
                     </div>

@@ -126,13 +126,13 @@ class Bids extends Component {
                             <Paper>
                                 <Table>
                                     <TableHead>
-                                        <TableRow style={{ backgroundColor: "#1F9947" }}>
-                                            <TableCell style={{ color: "white" }}>Tender Name</TableCell>
-                                            <TableCell style={{ color: "white" }} align="right">Description</TableCell>
-                                            <TableCell style={{ color: "white" }} align="right">Building Type</TableCell>
-                                            <TableCell style={{ color: "white" }} align="right">State</TableCell>
-                                            <TableCell style={{ color: "white" }} align="right">Closing Date</TableCell>
-                                            <TableCell style={{ color: "white" }} align="right"></TableCell>
+                                        <TableRow>
+                                            <TableCell>Tender Name</TableCell>
+                                            <TableCell align="right">Description</TableCell>
+                                            <TableCell align="right">Building Type</TableCell>
+                                            <TableCell align="right">State</TableCell>
+                                            <TableCell align="right">Closing Date</TableCell>
+                                            <TableCell align="right"></TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
