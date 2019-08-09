@@ -44,14 +44,13 @@ class Bids extends Component {
         firebase.database().ref("openTender/").on("value", (value) => {
             var arr = []
             let data = value.val();
+            let today = new Date();
+            let dd = String(today.getDate()).padStart(2, '0');
+            let mm = String(today.getMonth() + 1).padStart(2, '0');
+            let yyyy = today.getFullYear();
+            today = yyyy + '-' + mm + '-' + dd;
             for (var key in data) {
                 for (var key2 in data[key]) {
-                    var today = new Date();
-                    var dd = String(today.getDate()).padStart(2, '0');
-                    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-                    var yyyy = today.getFullYear();
-
-                    today = yyyy + '-' + mm + '-' + dd;
                     if (today < data[key][key2].closingDate) {
                         arr.push(data[key][key2])
                         // console.log(data[key][key2])

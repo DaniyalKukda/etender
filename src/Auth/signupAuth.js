@@ -14,7 +14,6 @@ const CreateUser = (data, props) => {
                     data.file = urlref;
                     let userId = firebase.auth().currentUser.uid;
                     data.uid = userId
-                    data.userFlag = false
                     data.verification = false
                     data.paymentFlag = true
                     firebase.database().ref("users/" + userId).set(data).then((res) => {
@@ -100,7 +99,6 @@ const updateUserData = (data, props) => {
             data.bankLetter = urlref;
             let userId = props.user.uid;
             data.uid = userId
-            data.userFlag = true
             data.verification = true
             data.paymentFlag = true
             firebase.database().ref("users/" + userId).set(data).then((res) => {

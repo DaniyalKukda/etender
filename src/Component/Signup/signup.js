@@ -29,6 +29,7 @@ class Signup extends Component {
             state: "",
             expertise: "",
             error: "",
+            tradeLicenceExpiry: "",
             policyAndTerms: false,
             loading: false
         }
@@ -43,6 +44,11 @@ class Signup extends Component {
             [e.target.name]: e.target.value
         })
     }
+    handleDate = (e) => {
+        this.setState({
+            tradeLicenceExpiry: e.target.value
+        })
+    }
     handleCheck = e => {
         this.setState({
             policyAndTerms: e.target.checked
@@ -50,21 +56,20 @@ class Signup extends Component {
     }
     //this method in used to create a user and validate feilds
     onSubmit = () => {
-        let { fullName, email, companyName, mobileNumber, trnNo, file, tradeLN, password, confirmPassword, country, state, expertise, policyAndTerms } = this.state;
+        let { fullName, email, companyName, mobileNumber, trnNo, file, tradeLN, password, confirmPassword, country, state, expertise, policyAndTerms, tradeLicenceExpiry } = this.state;
         let obj = {
             fullName,
             email,
             companyName,
             mobileNumber,
             trnNo,
-            password,
-            confirmPassword,
             file,
             tradeLN,
             country,
             state,
             expertise,
-            policyAndTerms
+            policyAndTerms,
+            tradeLicenceExpiry
         }
         this.setState({ loading: true })
         try {
@@ -173,6 +178,25 @@ class Signup extends Component {
                 })
                 return false
             }
+            if (tradeLicenceExpiry === "") {
+                this.setState({
+                    error: "Please Select Trade Licence Expiry Date"
+                })
+                return false
+            }
+
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0');
+            var yyyy = today.getFullYear();
+
+            today = yyyy + '-' + mm + '-' + dd;
+            if (today > tradeLicenceExpiry) {
+                this.setState({
+                    error: "Your Licence Has been expired"
+                })
+                return false
+            }
             CreateUser(obj, this.props)
         } catch (err) {
             console.log(err.message)
@@ -189,6 +213,7 @@ class Signup extends Component {
         }
     }
     render() {
+        let { tradeLicenceExpiry } = this.state
         return (
             <div className="SignupContainer">
                 <div className="SignupForm">
@@ -284,6 +309,20 @@ class Signup extends Component {
                             onChange={this.handleChange}
                             name="tradeLN"
                         />
+                        <br />
+                        <TextField
+                            id="date"
+                            label="Trade License Expiry Date"
+                            type="date"
+                            value={tradeLicenceExpiry}
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            fullWidth={true}
+                            onChange={this.handleDate}
+                            name="tradeLicenceExpiry"
+                        />
+                        <br />
                         <TextField
                             required
                             id="outlined-number"

@@ -26,8 +26,15 @@ class Myopentenders extends Component {
         firebase.database().ref("openTender/" + uid).on("value", (value) => {
             let arr = value.val();
             let data = [];
+            let today = new Date();
+            let dd = String(today.getDate()).padStart(2, '0');
+            let mm = String(today.getMonth() + 1).padStart(2, '0');
+            let yyyy = today.getFullYear();
+            today = yyyy + '-' + mm + '-' + dd;
             for (var key in arr) {
-                data.push(arr[key])
+                if (today < arr[key].closingDate) {
+                    data.push(arr[key])
+                }
             }
             this.setState({
                 data,
@@ -40,8 +47,15 @@ class Myopentenders extends Component {
         firebase.database().ref("bidnow/" + uid).on("value", (value) => {
             let arr = value.val();
             let data2 = [];
+            let today = new Date();
+            let dd = String(today.getDate()).padStart(2, '0');
+            let mm = String(today.getMonth() + 1).padStart(2, '0');
+            let yyyy = today.getFullYear();
+            today = yyyy + '-' + mm + '-' + dd;
             for (var key in arr) {
-                data2.push(arr[key])
+                if (today < arr[key].closingDate) {
+                    data2.push(arr[key])
+                }
             }
             this.setState({
                 data2,
@@ -152,37 +166,37 @@ class Myopentenders extends Component {
                                 <Table>
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell>RFQ No</TableCell>
-                                            <TableCell>Tender Name</TableCell>
-                                            <TableCell>Description</TableCell>
-                                            <TableCell>Building Type</TableCell>
-                                            <TableCell>State</TableCell>
-                                            <TableCell>Closing Date</TableCell>
-                                            <TableCell>Attachments</TableCell>
-                                            <TableCell>Timeline</TableCell>
-                                            <TableCell>Status</TableCell>
+                                            <TableCell className="tableRowAdjustment">RFQ No</TableCell>
+                                            <TableCell className="tableRowAdjustment">Tender Name</TableCell>
+                                            <TableCell className="tableRowAdjustment">Description</TableCell>
+                                            <TableCell className="tableRowAdjustment">Building Type</TableCell>
+                                            <TableCell className="tableRowAdjustment">State</TableCell>
+                                            <TableCell className="tableRowAdjustment">Closing Date</TableCell>
+                                            <TableCell className="tableRowAdjustment">Attachments</TableCell>
+                                            <TableCell className="tableRowAdjustment">Timeline</TableCell>
+                                            <TableCell className="tableRowAdjustment">Status</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
 
                                         {data && data.map(row => (
                                             <TableRow key={row.RFQNO}>
-                                                <TableCell component="th" scope="row">
+                                                <TableCell className="tableRowAdjustment" component="th" scope="row">
                                                     {row.RFQNO}
                                                 </TableCell>
-                                                <TableCell>{row.tenderName}</TableCell>
-                                                <TableCell>{row.Description}</TableCell>
-                                                <TableCell>{row.buildingType}</TableCell>
-                                                <TableCell>{row.state}</TableCell>
-                                                <TableCell>{row.closingDate}</TableCell>
-                                                <TableCell><ul style={{ margin: 0, padding: 0, listStyleType: "none" }}>
+                                                <TableCell className="tableRowAdjustment">{row.tenderName}</TableCell>
+                                                <TableCell className="tableRowAdjustment">{row.Description}</TableCell>
+                                                <TableCell className="tableRowAdjustment">{row.buildingType}</TableCell>
+                                                <TableCell className="tableRowAdjustment">{row.state}</TableCell>
+                                                <TableCell className="tableRowAdjustment">{row.closingDate}</TableCell>
+                                                <TableCell className="tableRowAdjustment"><ul style={{ margin: 0, padding: 0, listStyleType: "none" }}>
                                                     <li><a href={row.engineeringdrawings} target="blank">Engineering Drawing</a></li>
                                                     <li><a href={row.buildingPermit} target="blank">Building Permit</a></li>
                                                     <li><a href={row.materialAndSpecification} target="blank">Material&Specification</a></li>
                                                     <li><a href={row.siteplan} target="blank">Site Plan</a></li>
                                                 </ul></TableCell>
-                                                <TableCell>{row.status == "Awarded" ? <button className="btn-bidnow" onClick={() => this.props.history.push(`/home/timeline${row.RFQNO}`)}>Timeline</button> : 0}</TableCell>
-                                                <TableCell>
+                                                <TableCell className="tableRowAdjustment">{row.status == "Awarded" ? <button className="btn-bidnow" onClick={() => this.props.history.push(`/home/timeline${row.RFQNO}`)}>Timeline</button> : 0}</TableCell>
+                                                <TableCell className="tableRowAdjustment">
                                                     <select
                                                         name="status"
                                                         onChange={(e) => this.handleAssign(e, row.RFQNO)}

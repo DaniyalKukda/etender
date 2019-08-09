@@ -1,0 +1,56 @@
+.Job-Application-Container{
+    display: flex;
+    justify-Content:center;
+}
+.Job-Application-main-div{
+    margin-top:35px;
+}
+.Job-ApplicationHeading{
+    font-size: 40px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-weight: 400;
+    text-align: center;
+}
+.MuiInputBase-root {
+    width: 450px;
+}
+.MuiFormLabel-root.Mui-focused{
+    color: rgb(15, 11, 11) !important;
+    font-size: 19px;
+
+}
+.input-container{
+    display: flex;
+    flex-direction: column;
+}
+.country-code-para{
+    margin: 5px;
+    font-size: 12px;
+    color: rgb(87, 85, 85);
+}
+.error{
+    color: red;
+    font-weight: bold;
+    font-size: 16px;
+    margin: 0px;
+    padding: 0px;
+}
+@media (max-width : 480px){
+    .MuiInputBase-root{
+      width: 350px;
+    }
+    .Job-ApplicationHeading{
+        font-size: 30px;
+    }
+  }
+@media (max-width : 370px){
+    .MuiInputBase-root{
+      width: 300px;
+    }   
+  }
+@media (max-width : 324px){
+    .MuiInputBase-root{
+      width: 280px;
+    }   
+  }

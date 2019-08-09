@@ -22,16 +22,16 @@ class Footer extends Component {
                         <div>
                             <p className="listheading">Discover</p>
                             <ul className="list">
-                                <li><NavLink to="/home/open_tender" className="links" >Open Tender!</NavLink></li>
-                                <li><NavLink className="links" to="/home/bid_now">Bid Now!</NavLink></li>
+                                <li><NavLink to={window.location.pathname !== "/home/TermsAndConditions" && window.location.pathname !== "/home/PrivacyPolicy" ? "/home/open_tender":"#"} className="links" >Open Tender!</NavLink></li>
+                                <li><NavLink className="links" to={window.location.pathname !== "/home/TermsAndConditions" && window.location.pathname !== "/home/PrivacyPolicy" ? "/home/bid_now" : "#"}>Bid Now!</NavLink></li>
                                 <li><a className="links" href="#">How Its Work?</a></li>
                             </ul>
                         </div>
                         <div>
                             <p className="listheading">Understand</p>
                             <ul className="list">
-                                <li><a className="links" href="#">Carrers</a></li>
-                                <li><a className="links" href="#ourstory">Our Story</a></li>
+                                <li><NavLink to="/home/careers" className="links" href="#">Carrers</NavLink></li>
+                                <li><a className="links" href={window.location.pathname === "/" ? "#ourstory" : "#"}>Our Story</a></li>
                             </ul>
                         </div>
                     </div>

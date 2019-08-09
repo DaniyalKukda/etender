@@ -18,7 +18,8 @@ import PrivacyPolicy from "./Privacy_Policy/PrivacyPolicy";
 import TermsAndConditions from "./TermsAndConditions/TermsAndConditions";
 import Contact from "./ContactUs/Contactus";
 import Verification from "./Verification/Verification";
-
+import Careers from "./Careers/Postjob";
+import JobApplication from "./Careers/Jobapllication";
 
 class Routes extends Component {
     render() {
@@ -44,6 +45,8 @@ class Routes extends Component {
                     <Route path="/home/TermsAndConditions" component={TermsAndConditions} />
                     <Route path="/home/ContactUs" component={Contact} />
                     <Route path="/home/verification" component={Verification} />
+                    <Route path="/home/careers" component={Careers} />
+                    <Route path="/home/jobs/:title" component={JobApplication} />
                 </Router>
             </div>
         )

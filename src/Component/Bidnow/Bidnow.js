@@ -26,9 +26,17 @@ class Bidnow extends React.Component {
         firebase.database().ref("openTender/").on("value", (value) => {
             let arr = value.val();
             let data = [];
+            let today = new Date();
+            let dd = String(today.getDate()).padStart(2, '0');
+            let mm = String(today.getMonth() + 1).padStart(2, '0');
+            let yyyy = today.getFullYear();
+            today = yyyy + '-' + mm + '-' + dd;
             for (var key in arr) {
                 for (var key2 in arr[key]) {
-                    data.push(arr[key][key2])
+                    if (today < arr[key][key2].closingDate) {
+                        console.log(arr[key][key2].closingDate)
+                        data.push(arr[key][key2])
+                    }
                 }
             }
             this.setState({
@@ -43,7 +51,7 @@ class Bidnow extends React.Component {
             let arr = value.val();
             let data2 = [];
             for (var key in arr) {
-                data2.push({RFQNO : arr[key].RFQNO})
+                data2.push({ RFQNO: arr[key].RFQNO })
             }
             this.setState({
                 data2,
@@ -67,17 +75,17 @@ class Bidnow extends React.Component {
         let { data2 } = this.state
         var flag;
         data2.map((rfq) => {
-            if(rfq.RFQNO === para.RFQNO){
+            if (rfq.RFQNO === para.RFQNO) {
                 flag = rfq.RFQNO;
             }
         })
-        if(flag === para.RFQNO){
+        if (flag === para.RFQNO) {
             Swal.fire({
                 type: 'warning',
                 title: 'Bid!',
                 text: 'Your Bid is Already Submitted.!',
             })
-        }else{
+        } else {
             this.state.open()
             this.setState({
                 para

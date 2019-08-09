@@ -52,7 +52,7 @@ class Login extends Component {
                     this.props.updateUser(data)
                 }
                 data.verification ?
-                    data.userFlag ? this.props.history.push("/") : this.props.history.push("/home/my_profile")
+                    this.props.history.push("/")
                     : this.props.history.push("/home/verification")
             }).catch((err) => {
                 console.log(err.message)
@@ -82,7 +82,7 @@ class Login extends Component {
         }
         forgotPassword(email).then(() => {
             this.setState({
-                resetPass:false
+                resetPass: false
             })
         })
     }
@@ -144,7 +144,7 @@ class Login extends Component {
                     </form>
                     <div className="dha-div">
                         <p>Dont't have an account? <NavLink className="navlink" to="/home/signup"><span style={{ fontWeight: 550, fontSize: 17, cursor: "pointer" }}>Signup</span></NavLink></p>
-                        {resetPass ? <p className="fg-password" onClick={() => this.setState({ resetPass: false , error:"" })}>Go Back</p> : <p className="fg-password" onClick={this.resetPassword}>forgot password ?</p>}
+                        {resetPass ? <p className="fg-password" onClick={() => this.setState({ resetPass: false, error: "" })}>Go Back</p> : <p className="fg-password" onClick={this.resetPassword}>forgot password ?</p>}
                         {this.state.loading && <img src={require("../../assets/Images/loading.gif")} height="70px" width="70px" />}
                     </div>
                 </div>
