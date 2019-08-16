@@ -6,7 +6,6 @@ import FormControl from '@material-ui/core/FormControl';
 import { withStyles } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 import Button from '@material-ui/core/Button';
-import Uploadicon from 'react-icons/fa/upload';
 import Post from "./jobapplicationMethod";
 import './Jobapllication.css'
 
@@ -176,7 +175,7 @@ class ContactUs extends Component {
                                     />
                                     <label htmlFor="contained-button-file">
                                         <Button variant="contained" component="span">
-                                            Resume/CV &nbsp; <Uploadicon />
+                                            Resume/CV
                                         </Button>
                                     </label>
                                 </div>
